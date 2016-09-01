@@ -19,12 +19,12 @@ EOF
 
     #Instance tags
     tags {
-        Name = "${var.cluster_name} ${var.tagName}-${count.index}"
+        Name = "${var.name} ${var.tagName}-${count.index}"
     }
 }
 
 resource "aws_security_group" "ecs" {
-  name        = "ecs-sg"
+  name        = "ecs-sg-${var.name}"
   description = "Container Instance Allowed Ports"
   vpc_id      = "${var.vpc_id}"
   ingress {
@@ -48,5 +48,5 @@ resource "aws_security_group" "ecs" {
 
 # Make this a var that an get passed in?
 resource "aws_ecs_cluster" "cluster" {
-  name = "${var.cluster_name}"
+  name = "${var.name}"
 }

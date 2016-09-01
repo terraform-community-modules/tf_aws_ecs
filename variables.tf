@@ -11,7 +11,7 @@ variable "ami" {
     }
 }
 
-variable "cluster_name" {
+variable "name" {
   description = "AWS ECS Cluster Name"
 }
 variable "key_name" {
