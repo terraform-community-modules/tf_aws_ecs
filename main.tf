@@ -1,3 +1,4 @@
+/*
 resource "aws_instance" "server" {
     ami                  = "${lookup(var.ami, "${var.region}")}"
     instance_type        = "${var.instance_type}"
@@ -22,6 +23,36 @@ EOF
         Name = "${var.name} ${var.tagName}-${count.index}"
     }
 }
+*/
+
+resource "aws_launch_configuration" "ecs" {
+  name                 = "ecs-${var.name}"
+  image_id             = "${lookup(var.ami, var.region)}"
+  instance_type        = "${var.instance_type}"
+  key_name             = "${var.key_name}"
+  iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
+  security_groups      = ["${aws_security_group.ecs.id}"]
+  user_data = <<EOF
+#!/bin/bash
+echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
+EOF
+}
+
+resource "aws_autoscaling_group" "ecs" {
+  name                 = "ecs-asg-${var.name}"
+  vpc_zone_identifier  = ["${var.subnet_id}"]
+  launch_configuration = "${aws_launch_configuration.ecs.name}"
+  min_size             = 1
+  max_size             = 10
+  desired_capacity     = "${var.servers}"
+  tag {
+    key = "Name"
+    value = "${var.name} ${var.tagName}"
+    propagate_at_launch = true
+  }
+}
+
+
 
 resource "aws_security_group" "ecs" {
   name        = "ecs-sg-${var.name}"
@@ -42,7 +73,7 @@ resource "aws_security_group" "ecs" {
   }
 
   tags {
-    Name = "ecs-sg"
+    Name = "ecs-sg-${var.name}"
   }
 }
 
