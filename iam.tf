@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "ecs_profile" {
 }
 
 resource "aws_iam_role" "ecs-role" {
-    name               = "tf-created-AmazonECSContainerInstanceRole-${var.name}"
+    name               = "tf-AmazonECSContainerInstanceRole-${var.name}"
 
     assume_role_policy = <<EOF
 {
