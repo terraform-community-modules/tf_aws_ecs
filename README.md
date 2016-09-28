@@ -10,7 +10,7 @@ Module Input Variables
 - `name` - ECS cluster name
 - `key_name`
 - `key_path`
-- `subnet_id`
+- `subnet_id` - list of subnets 
 - `vpc_id`
 
 #### Optional
@@ -23,7 +23,7 @@ Usage
 
 ```hcl
 module "ecs-cluster" {
-  source       = "github.com/tfhartmann/tf_aws_ecs"
+  source       = "github.com/tfhartmann/tf-aws-ecs"
   cluster_name = "infra-services"
   servers      = 1
   subnet_id    = "subnet-6e101446"

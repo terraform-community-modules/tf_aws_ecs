@@ -47,6 +47,7 @@ variable "tagName" {
 }
 
 variable "subnet_id" {
+  type        = "list"
   description = "The AWS Subnet ID in which you want to delpoy your instances"
 }
 variable "vpc_id" {
