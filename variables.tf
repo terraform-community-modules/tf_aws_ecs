@@ -57,3 +57,7 @@ variable "subnet_id" {
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
+variable "docker_storage_size" {
+  default     = "22"
+  description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
+}

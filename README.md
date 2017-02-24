@@ -17,6 +17,7 @@ Module Input Variables
 - `region` - AWS Region - defaults to us-east-1
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 2
 - `instance_type` - AWS instance type - defaults to t2.micro
+- `docker_storage_size` - EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata - defaults to 22
 
 Usage
 -----
