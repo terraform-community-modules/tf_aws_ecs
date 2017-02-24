@@ -6,6 +6,12 @@ resource "aws_launch_configuration" "ecs" {
   key_name             = "${var.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
   security_groups      = ["${aws_security_group.ecs.id}"]
+  ebs_block_device {
+    device_name = "/dev/xvdcz"
+    volume_size = 22
+    volume_type = "gp2"
+    delete_on_termination = true
+  }
   user_data = <<EOF
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
