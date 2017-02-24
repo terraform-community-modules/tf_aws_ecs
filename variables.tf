@@ -1,13 +1,17 @@
 variable "ami" {
   description           = "ECS AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
     default = {
-        us-east-1      = "ami-a58760b3"
-        us-west-2      = "ami-492ffd29"
-        eu-west-1      = "ami-206e2140"
-        eu-central-1   = "ami-b847b5d7"
-        ap-northeast-1 = "ami-f2fc2d93"
-        ap-southeast-1 = "ami-0b568c68"
-        ap-southeast-2 = "ami-809faee3"
+        us-east-1      = "ami-b2df2ca4"
+        us-east-2      = "ami-832b0ee6"
+        us-west-1      = "ami-dd104dbd"
+        us-west-2      = "ami-022b9262"
+        eu-west-1      = "ami-a7f2acc1"
+        eu-west-2      = "ami-3fb6bc5b"
+        eu-central-1   = "ami-ec2be583"
+        ap-northeast-1 = "ami-c393d6a4"
+        ap-southeast-1 = "ami-a88530cb"
+        ap-southeast-2 = "ami-8af8ffe9"
+        ca-central-1   = "ami-ead5688e"
     }
 }
 
