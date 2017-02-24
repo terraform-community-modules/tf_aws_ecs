@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "ecs" {
   security_groups      = ["${aws_security_group.ecs.id}"]
   ebs_block_device {
     device_name = "/dev/xvdcz"
-    volume_size = 22
+    volume_size = "${var.docker_storage_size}"
     volume_type = "gp2"
     delete_on_termination = true
   }
