@@ -34,6 +34,8 @@ resource "aws_iam_policy" "ecs-policy" {
     {
       "Effect": "Allow",
       "Action": [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
           "ecs:CreateCluster",
           "ecs:RegisterContainerInstance",
           "ecs:DeregisterContainerInstance",
