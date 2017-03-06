@@ -34,19 +34,22 @@ resource "aws_iam_policy" "ecs-policy" {
     {
       "Effect": "Allow",
       "Action": [
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "ecs:CreateCluster",
-          "ecs:RegisterContainerInstance",
-          "ecs:DeregisterContainerInstance",
-          "ecs:DiscoverPollEndpoint",
-          "ecs:Submit*",
-          "ecs:Poll"
-        ],
-        "Resource": [
-          "*"
-        ]
-      }
+        "ecs:CreateCluster",
+        "ecs:DeregisterContainerInstance",
+        "ecs:DiscoverPollEndpoint",
+        "ecs:Poll",
+        "ecs:RegisterContainerInstance",
+        "ecs:StartTelemetrySession",
+        "ecs:Submit*",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
   ]
 }
 EOF
