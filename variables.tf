@@ -61,3 +61,15 @@ variable "docker_storage_size" {
   default     = "22"
   description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
 }
+
+variable "dockerhub_email" {
+  default     = ""
+  description = "Email Address used to authenticate to dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
+}
+
+variable "dockerhub_token" {
+  default     = ""
+  description = "Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
+}
+#ECS_ENGINE_AUTH_TYPE=dockercfg
+#ECS_ENGINE_AUTH_DATA={"https://index.docker.io/v1/": { "auth": "dGZoYXJ0bWFubjoxcjBubWFuMSYm", "email": "tfhartmann@gmail.com"}}

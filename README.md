@@ -10,7 +10,7 @@ Module Input Variables
 - `name` - ECS cluster name
 - `key_name`
 - `key_path`
-- `subnet_id` - list of subnets 
+- `subnet_id` - list of subnets
 - `vpc_id`
 
 #### Optional
@@ -18,6 +18,10 @@ Module Input Variables
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 2
 - `instance_type` - AWS instance type - defaults to t2.micro
 - `docker_storage_size` - EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata - defaults to 22
+- `dockerhub_email` - Email Address used to authenticate to dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
+
+- `dockerhub_token` - Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
+
 
 Usage
 -----
