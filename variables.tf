@@ -54,6 +54,12 @@ variable "subnet_id" {
   type        = "list"
   description = "The AWS Subnet ID in which you want to delpoy your instances"
 }
+
+variable "allowed_cidr_blocks" {
+  default     = ["0.0.0.0/0"]
+  type        = "list"
+  description = "List of subnets to allow into the ECS Security Group. Defaults to ['0.0.0.0/0']"
+}
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
