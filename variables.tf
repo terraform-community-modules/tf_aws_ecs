@@ -71,5 +71,3 @@ variable "dockerhub_token" {
   default     = ""
   description = "Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
 }
-#ECS_ENGINE_AUTH_TYPE=dockercfg
-#ECS_ENGINE_AUTH_DATA={"https://index.docker.io/v1/": { "auth": "dGZoYXJ0bWFubjoxcjBubWFuMSYm", "email": "tfhartmann@gmail.com"}}
