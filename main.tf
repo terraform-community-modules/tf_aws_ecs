@@ -15,6 +15,8 @@ resource "aws_launch_configuration" "ecs" {
   user_data = <<EOF
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
+echo 'OPTIONS="$${OPTIONS} --storage-opt dm.basesize=${var.docker_storage_size}G"' >> /etc/sysconfig/docker
+/etc/init.d/docker restart
 echo ECS_ENGINE_AUTH_TYPE=dockercfg >> /etc/ecs/ecs.config
 echo 'ECS_ENGINE_AUTH_DATA={"https://index.docker.io/v1/": { "auth": "${var.dockerhub_token}", "email": "${var.dockerhub_email}"}}' >> /etc/ecs/ecs.config
 EOF
