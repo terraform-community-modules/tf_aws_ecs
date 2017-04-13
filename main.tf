@@ -55,7 +55,12 @@ resource "aws_security_group" "ecs" {
     protocol    = "tcp"
     cidr_blocks = "${var.allowed_cidr_blocks}"
   }
-
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "udp"
+    cidr_blocks = "${var.allowed_cidr_blocks}"
+  }
   egress {
     from_port   = 0
     to_port     = 0
