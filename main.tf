@@ -1,7 +1,21 @@
+data "aws_ami" "ecs_ami" {
+  most_recent = true
+
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]
+  }
+
+  filter {
+    name = "name"
+    values = ["amzn-ami-*.*.g-amazon-ecs-optimized"]
+  }
+}
+
 resource "aws_launch_configuration" "ecs" {
   #name                 = "ecs-${var.name}"
   name_prefix          = "ecs-${var.name}-"
-  image_id             = "${lookup(var.ami, var.region)}"
+  image_id             = "${var.ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.ami}" # Workaround until 0.9.6
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
