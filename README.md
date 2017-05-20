@@ -22,6 +22,8 @@ Module Input Variables
 
 - `dockerhub_token` - Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
 - `allowed_cidr_blocks` - List of subnets to allow into the ECS Security Group. Defaults to ["0.0.0.0/0"]
+- `ami` - specific AMI image to use, eg `ami-95f8d2f3`.
+- `ami_version` - specific version of the Amazon ECS AMI to use, eg `2016.09`
 
 
 Usage
