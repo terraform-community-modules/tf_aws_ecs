@@ -2,6 +2,10 @@ variable "ami" {
   default = ""
 }
 
+variable "ami_version" {
+  default = "*"
+}
+
 variable "name" {
   description = "AWS ECS Cluster Name"
 }
