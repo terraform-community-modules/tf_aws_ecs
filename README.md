@@ -31,7 +31,7 @@ Usage
 
 ```hcl
 module "ecs-cluster" {
-  source       = "github.com/tfhartmann/tf-aws-ecs"
+  source       = "github.com/terraform-community-modules/tf_aws_ecs"
   cluster_name = "infra-services"
   servers      = 1
   subnet_id    = "subnet-6e101446"
