@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "ecs_profile" {
     name = "tf-created-AmazonECSContainerProfile-${var.name}"
-    roles = ["${aws_iam_role.ecs-role.name}"]
+    role = "${aws_iam_role.ecs-role.name}"
 }
 
 resource "aws_iam_role" "ecs-role" {
