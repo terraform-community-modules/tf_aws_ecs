@@ -47,6 +47,7 @@ resource "aws_autoscaling_group" "ecs" {
   min_size             = 1
   max_size             = 10
   desired_capacity     = "${var.servers}"
+  termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
   tag {
     key = "Name"
     value = "${var.name} ${var.tagName}"
@@ -56,8 +57,6 @@ resource "aws_autoscaling_group" "ecs" {
     create_before_destroy = true
   }
 }
-
-
 
 resource "aws_security_group" "ecs" {
   name        = "ecs-sg-${var.name}"

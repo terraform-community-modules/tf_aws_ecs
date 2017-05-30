@@ -24,6 +24,11 @@ resource "aws_iam_role" "ecs-role" {
 EOF
 }
 
+# It may be useful to add the following for troubleshooting the InstanceStatus
+# Health check if using the fitnesskeeper/consul docker image
+# "ec2:Describe*",
+# "autoscaling:Describe*",
+
 resource "aws_iam_policy" "ecs-policy" {
     name        = "tf-created-AmazonECSContainerInstancePolicy-${var.name}"
     description = "A terraform created policy for ECS"
