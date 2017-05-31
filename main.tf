@@ -48,11 +48,12 @@ resource "aws_autoscaling_group" "ecs" {
   max_size             = 10
   desired_capacity     = "${var.servers}"
   termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
-  tag {
+  tags = [{
     key = "Name"
     value = "${var.name} ${var.tagName}"
     propagate_at_launch = true
-  }
+  }]
+  tags = ["${var.extra_tags}"]
   lifecycle {
     create_before_destroy = true
   }

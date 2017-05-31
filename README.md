@@ -21,6 +21,16 @@ Module Input Variables
 - `dockerhub_email` - Email Address used to authenticate to dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
 
 - `dockerhub_token` - Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
+- `extra_tags` - Additional tags to be added to the ECS autoscaling group. Must be in the form of an array of hashes. See https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html for examples.
+```
+extra_tags = [
+    {
+      key                 = "consul_server"
+      value               = "true"
+      propagate_at_launch = true
+    },
+  ]
+```
 - `allowed_cidr_blocks` - List of subnets to allow into the ECS Security Group. Defaults to ["0.0.0.0/0"]
 - `ami` - specific AMI image to use, eg `ami-95f8d2f3`.
 - `ami_version` - specific version of the Amazon ECS AMI to use, eg `2016.09`
