@@ -79,3 +79,7 @@ variable "tagName" {
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
+
+variable "associate_public_ip_address" {
+  default = false
+}
