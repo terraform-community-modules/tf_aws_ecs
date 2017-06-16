@@ -62,6 +62,6 @@ EOF
 
 resource "aws_iam_policy_attachment" "attach-ecs" {
   name       = "ecs-attachment"
-  role       = "${aws_iam_role.ecs-role.name}"
+  roles      = ["${aws_iam_role.ecs-role.name}"]
   policy_arn = "${aws_iam_policy.ecs-policy.arn}"
 }
