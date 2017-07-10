@@ -17,9 +17,9 @@ Module Input Variables
 - `region` - AWS Region - defaults to us-east-1
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 2
 - `instance_type` - AWS instance type - defaults to t2.micro
+- `associate_public_ip_address` - assign a publicly-routable IP address to every instance in the cluster - default: `false`.
 - `docker_storage_size` - EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata - defaults to 22
 - `dockerhub_email` - Email Address used to authenticate to dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
-
 - `dockerhub_token` - Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
 - `extra_tags` - Additional tags to be added to the ECS autoscaling group. Must be in the form of an array of hashes. See https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html for examples.
 ```

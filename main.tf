@@ -13,13 +13,13 @@ data "aws_ami" "ecs_ami" {
 }
 
 resource "aws_launch_configuration" "ecs" {
-  #name                 = "ecs-${var.name}"
   name_prefix          = "ecs-${var.name}-"
   image_id             = "${var.ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.ami}" # Workaround until 0.9.6
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
   security_groups      = ["${aws_security_group.ecs.id}"]
+  associate_public_ip_address = "${var.associate_public_ip_address}"
   ebs_block_device {
     device_name = "/dev/xvdcz"
     volume_size = "${var.docker_storage_size}"
@@ -40,7 +40,6 @@ EOF
 }
 
 resource "aws_autoscaling_group" "ecs" {
-  #name                 = "ecs-asg-${var.name}"
   name                 = "asg-${aws_launch_configuration.ecs.name}"
   vpc_zone_identifier  = ["${var.subnet_id}"]
   launch_configuration = "${aws_launch_configuration.ecs.name}"
