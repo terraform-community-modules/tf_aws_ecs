@@ -82,6 +82,12 @@ variable "tagName" {
   description = "Name tag for the servers"
 }
 
+variable "target_group_arns" {
+  type        = "list"
+  description = "Target group ARNs to apply to auto-scaling group"
+  default     = []
+}
+
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
