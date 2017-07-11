@@ -35,6 +35,7 @@ extra_tags = [
 - `ami` - specific AMI image to use, eg `ami-95f8d2f3`.
 - `ami_version` - specific version of the Amazon ECS AMI to use, eg `2016.09`
 - `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutodwn hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
+- `security_group_ids` - a list of security group IDs to apply to the launch configuration
 
 Usage
 -----

@@ -61,6 +61,12 @@ variable "region" {
   description = "The region of AWS, for AMI lookups."
 }
 
+variable "security_group_ids" {
+  type        = "list"
+  description = "A list of Security group IDs to apply to the launch configuration"
+  default     = []
+}
+
 variable "servers" {
   default     = "1"
   description = "The number of servers to launch."
