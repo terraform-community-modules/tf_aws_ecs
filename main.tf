@@ -13,12 +13,12 @@ data "aws_ami" "ecs_ami" {
 }
 
 resource "aws_launch_configuration" "ecs" {
-  name_prefix          = "ecs-${var.name}-"
+  name_prefix          = "${coalesce(var.name_prefix, "ecs-${var.name}-")}"
   image_id             = "${var.ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.ami}" # Workaround until 0.9.6
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
-  security_groups      = ["${aws_security_group.ecs.id}", "${var.security_group_ids}"]
+  security_groups      = "${concat([aws_security_group.ecs.id], var.security_group_ids)}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
   ebs_block_device {
     device_name = "/dev/xvdcz"
@@ -26,14 +26,9 @@ resource "aws_launch_configuration" "ecs" {
     volume_type = "gp2"
     delete_on_termination = true
   }
-  user_data = <<EOF
-#!/bin/bash
-echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
-echo 'OPTIONS="$${OPTIONS} --storage-opt dm.basesize=${var.docker_storage_size}G"' >> /etc/sysconfig/docker
-/etc/init.d/docker restart
-echo ECS_ENGINE_AUTH_TYPE=dockercfg >> /etc/ecs/ecs.config
-echo 'ECS_ENGINE_AUTH_DATA={"https://index.docker.io/v1/": { "auth": "${var.dockerhub_token}", "email": "${var.dockerhub_email}"}}' >> /etc/ecs/ecs.config
-EOF
+
+  user_data = "${coalesce(var.user_data, data.template_file.user_data.rendered)}"
+
   lifecycle {
     create_before_destroy = true
   }
