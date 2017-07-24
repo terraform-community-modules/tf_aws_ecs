@@ -5,7 +5,6 @@ variable "allowed_cidr_blocks" {
 }
 
 variable "name_prefix" {
-  type    = "string"
   default = ""
 }
 
@@ -18,7 +17,6 @@ variable "ami_version" {
 }
 
 variable "user_data" {
-  type    = "string"
   default = ""
 }
 
@@ -53,7 +51,6 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
-  default     = "amazonhosts"
 }
 
 variable "name" {
