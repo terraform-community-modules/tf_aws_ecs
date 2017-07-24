@@ -60,8 +60,8 @@ Outputs
 Authors
 =======
 
-[Tim Hartmann](https://github.com/tfhartmann)
-[Joe Stump](https://github.com/joestump)
+* [Tim Hartmann](https://github.com/tfhartmann)
+* [Joe Stump](https://github.com/joestump)
 
 License
 =======
