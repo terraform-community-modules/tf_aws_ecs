@@ -55,7 +55,7 @@ Outputs
 =======
 
 - `cluster_id` - _(String)_ ECS Cluster id for use in ECS task and service definitions.
-- `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group.ecs` created.  
+- `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
 
 Authors
 =======
