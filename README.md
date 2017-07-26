@@ -8,10 +8,9 @@ Module Input Variables
 ----------------------
 #### Required
 - `name` - ECS cluster name
-- `key_name`
-- `key_path`
-- `subnet_id` - list of subnets
-- `vpc_id`
+- `key_name` - An EC2 key pair name
+- `subnet_id` - A list of subnet IDs
+- `vpc_id` - The VPC ID to place the cluster in
 
 #### Optional
 - `region` - AWS Region - defaults to us-east-1
@@ -31,11 +30,12 @@ extra_tags = [
     },
   ]
 ```
-- `allowed_cidr_blocks` - List of subnets to allow into the ECS Security Group. Defaults to ["0.0.0.0/0"]
-- `ami` - specific AMI image to use, eg `ami-95f8d2f3`.
-- `ami_version` - specific version of the Amazon ECS AMI to use, eg `2016.09`
+- `allowed_cidr_blocks` - List of subnets to allow into the ECS Security Group. Defaults to `["0.0.0.0/0"]`.
+- `ami` - A specific AMI image to use, eg `ami-95f8d2f3`. Defaults to the latest ECS optimized Amazon Linux AMI.
+- `ami_version` - Specific version of the Amazon ECS AMI to use (e.g. `2016.09`). Defaults to `*`. Ignored if `ami` is specified.
 - `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutodwn hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
+- `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 
 Usage
 -----
@@ -54,12 +54,16 @@ module "ecs-cluster" {
 Outputs
 =======
 
- - `cluster_id` - ECS Cluster id for use in ECS task and service definitions
+- `cluster_id` - _(String)_ ECS Cluster id for use in ECS task and service definitions.
+- `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
 
 Authors
 =======
 
-[Tim Hartmann](https://github.com/tfhartmann)
+* [Tim Hartmann](https://github.com/tfhartmann)
+* [Joe Stump](https://github.com/joestump)
 
 License
 =======
+
+[MIT](LICENSE)

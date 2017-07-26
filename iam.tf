@@ -1,12 +1,12 @@
 resource "aws_iam_instance_profile" "ecs_profile" {
-    name = "tf-created-AmazonECSContainerProfile-${var.name}"
-    role = "${aws_iam_role.ecs-role.name}"
+  name = "tf-created-AmazonECSContainerProfile-${var.name}"
+  role = "${aws_iam_role.ecs-role.name}"
 }
 
 resource "aws_iam_role" "ecs-role" {
-    name               = "tf-AmazonECSInstanceRole-${var.name}"
+  name = "tf-AmazonECSInstanceRole-${var.name}"
 
-    assume_role_policy = <<EOF
+  assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -30,9 +30,10 @@ EOF
 # "autoscaling:Describe*",
 
 resource "aws_iam_policy" "ecs-policy" {
-    name        = "tf-created-AmazonECSContainerInstancePolicy-${var.name}"
-    description = "A terraform created policy for ECS"
-    policy      = <<EOF
+  name        = "tf-created-AmazonECSContainerInstancePolicy-${var.name}"
+  description = "A terraform created policy for ECS"
+
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [

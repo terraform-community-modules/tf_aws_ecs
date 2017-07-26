@@ -4,12 +4,20 @@ variable "allowed_cidr_blocks" {
   description = "List of subnets to allow into the ECS Security Group. Defaults to ['0.0.0.0/0']"
 }
 
+variable "name_prefix" {
+  default = ""
+}
+
 variable "ami" {
   default = ""
 }
 
 variable "ami_version" {
   default = "*"
+}
+
+variable "user_data" {
+  default = ""
 }
 
 variable "docker_storage_size" {
@@ -30,6 +38,7 @@ variable "dockerhub_token" {
 variable "extra_tags" {
   default = []
 }
+
 variable "heartbeat_timeout" {
   description = "Heartbeat Timeout setting for how long it takes for the graceful shutodwn hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
   default     = "180"
@@ -42,14 +51,6 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
-    default   = "amazonhosts"
-}
-
-variable "key_path" {
-  description  = "Path to the private key specified by key_name."
-    default    = {
-      key_path = "/Users/alaric/amazonhosts.pem"
-    }
 }
 
 variable "name" {
