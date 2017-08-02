@@ -45,8 +45,9 @@ module "ecs-cluster" {
   source    = "github.com/terraform-community-modules/tf_aws_ecs"
   name      = "infra-services"
   servers   = 1
-  subnet_id = "subnet-6e101446"
+  subnet_id = ["subnet-6e101446"]
   vpc_id    = "vpc-99e73dfc"
+  key_name  = "key.pem"
 }
 
 ```
