@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: terraform-validate
-          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read folder; do (terraform validate "$$m" && echo "√ $$m") || exit 1 ; done
+          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read folder; do (terraform validate "$m" && echo "√ $m") || exit 1 ; done
       - run:
           name: terraform-fmt
           command: if [ `terraform fmt | wc -c` -ne 0 ]; then echo "terraform files need be formatted"; exit 1; fi
@@ -22,9 +22,6 @@ jobs:
       - run:
           name: "tflint"
           command: /usr/local/tflint/bin/tflint
-      - run:
-          name: terraform-validate
-          command: terraform validate
 workflows:
   version: 2
   build:
