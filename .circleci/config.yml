@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: fitnesskeeper/terraform:v0.9.11
+      - image: hashicorp/terraform:0.9.11
         entrypoint: /bin/sh
     steps:
       - checkout
