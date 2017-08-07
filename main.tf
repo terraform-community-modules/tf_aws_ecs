@@ -25,7 +25,7 @@ data "template_file" "user_data" {
 
 resource "aws_launch_configuration" "ecs" {
   name_prefix                 = "${coalesce(var.name_prefix, "ecs-${var.name}-")}"
-  image_id                    = "${var.ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.ami}" # Workaround until 0.9.6
+  image_id                    = "${var.ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.ami}"   # Workaround until 0.9.6
   instance_type               = "${var.instance_type}"
   key_name                    = "${var.key_name}"
   iam_instance_profile        = "${aws_iam_instance_profile.ecs_profile.name}"
