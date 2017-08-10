@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: validate tf files (terraform validate)
-          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read folder; do (terraform validate "$m" && echo "√ $m") || exit 1 ; done
+          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate "$m" && echo "√ $m") || exit 1 ; done
       - run:
           name: check if all tf files are formatted (terraform fmt)
           command: if [ `terraform fmt | wc -c` -ne 0 ]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi
