@@ -16,11 +16,16 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data.tpl")}"
 
   vars {
-    cluster_name        = "${aws_ecs_cluster.cluster.name}"
-    docker_storage_size = "${var.docker_storage_size}"
-    dockerhub_token     = "${var.dockerhub_token}"
-    dockerhub_email     = "${var.dockerhub_email}"
+    additional_user_data_script = "${var.additional_user_data_script}"
+    cluster_name                = "${aws_ecs_cluster.cluster.name}"
+    docker_storage_size         = "${var.docker_storage_size}"
+    dockerhub_token             = "${var.dockerhub_token}"
+    dockerhub_email             = "${var.dockerhub_email}"
   }
+}
+
+data "aws_vpc" "vpc" {
+  id = "${var.vpc_id}"
 }
 
 resource "aws_launch_configuration" "ecs" {
@@ -71,7 +76,7 @@ resource "aws_autoscaling_group" "ecs" {
 resource "aws_security_group" "ecs" {
   name        = "ecs-sg-${var.name}"
   description = "Container Instance Allowed Ports"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = "${data.aws_vpc.vpc.id}"
 
   ingress {
     from_port   = 0

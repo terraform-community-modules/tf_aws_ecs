@@ -13,6 +13,9 @@ Module Input Variables
 - `vpc_id` - The VPC ID to place the cluster in
 
 #### Optional
+note about `user_data` and - `additional_user_data_script`: The `user_data` parameter overwrites the user_data template used by this module, this will break some of the module features. (`docker_storage_size`, `dockerhub_token`, and `dockerhub_email`) `additional_user_data_script` however will concatenate additional data to the end of the current user_data script. It is recomended that you use `additional_user_data_script`. These two parameters are mutually exclusive - you can not pass both into this module and expect it to work.
+
+- `additional_user_data_script` - Additional user_data scripts content
 - `region` - AWS Region - defaults to us-east-1
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 2
 - `instance_type` - AWS instance type - defaults to t2.micro

@@ -1,11 +1,11 @@
+variable "additional_user_data_script" {
+  default = ""
+}
+
 variable "allowed_cidr_blocks" {
   default     = ["0.0.0.0/0"]
   type        = "list"
   description = "List of subnets to allow into the ECS Security Group. Defaults to ['0.0.0.0/0']"
-}
-
-variable "name_prefix" {
-  default = ""
 }
 
 variable "ami" {
@@ -16,8 +16,13 @@ variable "ami_version" {
   default = "*"
 }
 
-variable "user_data" {
-  default = ""
+variable "associate_public_ip_address" {
+  default = false
+}
+
+variable "consul_image" {
+  description = "Image to use when deploying consul, defaults to the hashicorp consul image"
+  default     = "consul:latest"
 }
 
 variable "docker_storage_size" {
@@ -33,6 +38,11 @@ variable "dockerhub_email" {
 variable "dockerhub_token" {
   default     = ""
   description = "Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
+}
+
+variable "enable_agent" {
+  default     = true # should be false
+  description = "Enable Consul Agent and Registrator tasks on each ECS Instance"
 }
 
 variable "extra_tags" {
@@ -55,6 +65,10 @@ variable "key_name" {
 
 variable "name" {
   description = "AWS ECS Cluster Name"
+}
+
+variable "name_prefix" {
+  default = ""
 }
 
 variable "region" {
@@ -83,10 +97,10 @@ variable "tagName" {
   description = "Name tag for the servers"
 }
 
-variable "vpc_id" {
-  description = "The AWS VPC ID which you want to deploy your instances"
+variable "user_data" {
+  default = ""
 }
 
-variable "associate_public_ip_address" {
-  default = false
+variable "vpc_id" {
+  description = "The AWS VPC ID which you want to deploy your instances"
 }
