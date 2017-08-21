@@ -41,7 +41,7 @@ variable "dockerhub_token" {
 }
 
 variable "enable_agent" {
-  default     = true                                                             # should be false
+  default     = false
   description = "Enable Consul Agent and Registrator tasks on each ECS Instance"
 }
 
