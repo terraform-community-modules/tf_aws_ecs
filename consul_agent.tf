@@ -2,11 +2,11 @@ data "template_file" "consul" {
   template = "${file("${path.module}/templates/consul.json")}"
 
   vars {
-    env                        = "${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
-    image                      = "${var.consul_image}"
-    awslogs_group              = "consul-agent-${aws_ecs_cluster.cluster.name}"  # "${aws_ecs_cluster.cluster.name}"
-    awslogs_stream_prefix      = "consul-agent-${aws_ecs_cluster.cluster.name}"  # "${aws_ecs_cluster.cluster.name}"
-    awslogs_region             = "${var.region}"
+    env                   = "${aws_ecs_cluster.cluster.name}"              # "${aws_ecs_cluster.cluster.name}"
+    image                 = "${var.consul_image}"
+    awslogs_group         = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
+    awslogs_stream_prefix = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
+    awslogs_region        = "${var.region}"
   }
 }
 
@@ -23,6 +23,7 @@ resource "aws_ecs_task_definition" "consul" {
     name      = "consul-config-dir"
     host_path = "/etc/consul"
   }
+
   volume {
     name      = "docker-sock"
     host_path = "/var/run/docker.sock"
@@ -30,8 +31,8 @@ resource "aws_ecs_task_definition" "consul" {
 }
 
 resource "aws_cloudwatch_log_group" "consul" {
-  count                 = "${var.enable_agent ? 1 : 0}"
-  name = "${aws_ecs_task_definition.consul.family}"
+  count = "${var.enable_agent ? 1 : 0}"
+  name  = "${aws_ecs_task_definition.consul.family}"
 
   tags {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
@@ -40,7 +41,7 @@ resource "aws_cloudwatch_log_group" "consul" {
 }
 
 resource "aws_ecs_service" "consul" {
-  count                 = "${var.enable_agent ? 1 : 0}"
+  count           = "${var.enable_agent ? 1 : 0}"
   name            = "consul-agent-${aws_ecs_cluster.cluster.name}"
   cluster         = "${aws_ecs_cluster.cluster.id}"
   task_definition = "${aws_ecs_task_definition.consul.arn}"
