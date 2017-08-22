@@ -3,6 +3,11 @@ ecs terraform module
 
 A terraform module to provide ECS clusters in AWS.
 
+[![CircleCI](https://circleci.com/gh/terraform-community-modules/tf_aws_ecs.svg?style=svg)](https://circleci.com/gh/terraform-community-modules/tf_aws_ecs)
+
+
+This Module currently supports Terraform 0.10.x, but does not require it. If you use tfenv, this module contains a `.terraform-version` file which matches the version of Terraform we currently use to test with.
+
 
 Module Input Variables
 ----------------------
@@ -13,6 +18,9 @@ Module Input Variables
 - `vpc_id` - The VPC ID to place the cluster in
 
 #### Optional
+note about `user_data` and - `additional_user_data_script`: The `user_data` parameter overwrites the user_data template used by this module, this will break some of the module features. (`docker_storage_size`, `dockerhub_token`, and `dockerhub_email`) `additional_user_data_script` however will concatenate additional data to the end of the current user_data script. It is recomended that you use `additional_user_data_script`. These two parameters are mutually exclusive - you can not pass both into this module and expect it to work.
+
+- `additional_user_data_script` - Additional user_data scripts content
 - `region` - AWS Region - defaults to us-east-1
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 2
 - `instance_type` - AWS instance type - defaults to t2.micro
@@ -37,6 +45,10 @@ extra_tags = [
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 
+- `consul_image` - Image to use when deploying consul, defaults to the hashicorp consul image
+- `registrator_image` - Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest
+- `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
+
 Usage
 -----
 
@@ -47,10 +59,56 @@ module "ecs-cluster" {
   servers   = 1
   subnet_id = ["subnet-6e101446"]
   vpc_id    = "vpc-99e73dfc"
-  key_name  = "key.pem"
 }
 
 ```
+
+#### Example cluster with consul and Registrator
+
+In order to start the Consul/Registrator task in ECS, you'll need to pass in a consul config into the `additional_user_data_script` script parameter.  For example, you might pass something like this:
+
+Please note, this module will try to mount `/etc/consul/` into `/consul/config` in the container and assumes that the consul config lives under `/etc/consul` on the docker host.  
+
+```Shell
+/bin/mkdir -p /etc/consul
+cat <<"CONSUL" > /etc/consul/config.json
+{
+	"raft_protocol": 3,
+	"log_level": "INFO",
+	"enable_script_checks": true,
+  "datacenter": "${datacenter}",
+	"retry_join_ec2": {
+		"tag_key": "consul_server",
+		"tag_value": "true"
+	}
+}
+CONSUL
+```
+
+
+```hcl
+
+data "template_file" "ecs_consul_agent_json" {
+  template = "${file("ecs_consul_agent.json.sh")}"
+
+  vars {
+    datacenter = "infra-services"
+  }
+}
+
+module "ecs-cluster" {
+  source                      = "github.com/terraform-community-modules/tf_aws_ecs"
+  name                        = "infra-services"
+  servers                     = 1
+  subnet_id                   = ["subnet-6e101446"]
+  vpc_id                      = "vpc-99e73dfc"
+  additional_user_data_script = "${data.template_file.ecs_consul_agent_json.rendered}"
+  enable_agents               = true
+}
+
+
+```
+
 
 Outputs
 =======

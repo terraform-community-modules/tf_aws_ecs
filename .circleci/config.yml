@@ -3,13 +3,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: hashicorp/terraform:0.9.11
+      - image: hashicorp/terraform:0.10.1
         entrypoint: /bin/sh
     steps:
       - checkout
       - run:
           name: validate tf files (terraform validate)
-          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate "$m" && echo "√ $m") || exit 1 ; done
+          command: find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
       - run:
           name: check if all tf files are formatted (terraform fmt)
           command: if [ `terraform fmt | wc -c` -ne 0 ]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi

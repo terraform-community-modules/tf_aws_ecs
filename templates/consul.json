@@ -1,0 +1,52 @@
+[
+        {
+            "name": "consul_agent-${env}",
+            "image": "${image}",
+            "memoryReservation": 512,
+            "environment": [
+                {
+                    "name": "CONSUL_BIND_INTERFACE",
+                    "value": "eth0"
+                }
+            ],
+            "command": [
+              "agent", "-client=0.0.0.0"
+            ],
+            "mountPoints": [
+              {
+                "sourceVolume": "consul-config-dir",
+                "containerPath": "/consul/config"
+              }
+            ],
+            "logConfiguration": {
+              "logDriver": "awslogs",
+                "options": {
+                  "awslogs-group": "${awslogs_group}",
+                   "awslogs-region": "${awslogs_region}",
+                   "awslogs-stream-prefix": "${awslogs_stream_prefix}"
+                }
+              }
+        },
+        {
+            "name": "registrator-${env}",
+            "image": "${registrator_image}",
+            "memoryReservation": 256,
+            "command": [
+              "-retry-attempts=10", "-retry-interval=1000", "consul://localhost:8500"
+            ],
+            "mountPoints": [
+              {
+                "sourceVolume": "docker-sock",
+                "containerPath": "/tmp/docker.sock"
+              }
+            ],
+            "logConfiguration": {
+              "logDriver": "awslogs",
+                "options": {
+                  "awslogs-group": "${awslogs_group}",
+                  "awslogs-region": "${awslogs_region}",
+                  "awslogs-stream-prefix": "${awslogs_stream_prefix}"
+                }
+              }
+        }
+]
