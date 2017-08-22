@@ -5,6 +5,10 @@ A terraform module to provide ECS clusters in AWS.
 
 [![CircleCI](https://circleci.com/gh/terraform-community-modules/tf_aws_ecs.svg?style=svg)](https://circleci.com/gh/terraform-community-modules/tf_aws_ecs)
 
+
+This Module currently supports Terraform 0.10.x, but does not require it. 
+
+
 Module Input Variables
 ----------------------
 #### Required
