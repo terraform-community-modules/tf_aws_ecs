@@ -74,9 +74,6 @@ data "aws_iam_policy_document" "consul_task_policy" {
     actions = [
       "ec2:Describe*",
       "autoscaling:Describe*",
-      "ec2:DescribeAddresses",
-      "ec2:DescribeInstances",
-      "ec2:DescribeTags",
     ]
 
     resources = ["*"]

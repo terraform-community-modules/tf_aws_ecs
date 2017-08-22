@@ -2,11 +2,11 @@ data "template_file" "consul" {
   template = "${file("${path.module}/templates/consul.json")}"
 
   vars {
-    env                   = "${aws_ecs_cluster.cluster.name}"              # "${aws_ecs_cluster.cluster.name}"
+    env                   = "${aws_ecs_cluster.cluster.name}"
     image                 = "${var.consul_image}"
     registrator_image     = "${var.registrator_image}"
-    awslogs_group         = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
-    awslogs_stream_prefix = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
+    awslogs_group         = "consul-agent-${aws_ecs_cluster.cluster.name}"
+    awslogs_stream_prefix = "consul-agent-${aws_ecs_cluster.cluster.name}"
     awslogs_region        = "${var.region}"
   }
 }
