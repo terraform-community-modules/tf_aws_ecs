@@ -79,7 +79,6 @@ variable "region" {
 variable "registrator_image" {
   default     = "gliderlabs/registrator:latest"
   description = "Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest image"
-
 }
 
 variable "security_group_ids" {
