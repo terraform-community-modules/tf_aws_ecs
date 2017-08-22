@@ -95,14 +95,14 @@ data "aws_iam_policy_document" "assume_role_consul_task" {
 }
 
 resource "aws_iam_role" "consul_task" {
-  count              = "${var.enable_agent ? 1 : 0}"
+  count              = "${var.enable_agents ? 1 : 0}"
   name               = "tf-${data.aws_vpc.vpc.tags["Name"]}-consul-agentTaskRole"
   path               = "/"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_consul_task.json}"
 }
 
 resource "aws_iam_role_policy" "consul_ecs_task" {
-  count  = "${var.enable_agent ? 1 : 0}"
+  count  = "${var.enable_agents ? 1 : 0}"
   name   = "tf-${data.aws_vpc.vpc.tags["Name"]}-consul-agentTaskPolicy"
   role   = "${aws_iam_role.consul_task.id}"
   policy = "${data.aws_iam_policy_document.consul_task_policy.json}"

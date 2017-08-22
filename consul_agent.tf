@@ -4,6 +4,7 @@ data "template_file" "consul" {
   vars {
     env                   = "${aws_ecs_cluster.cluster.name}"              # "${aws_ecs_cluster.cluster.name}"
     image                 = "${var.consul_image}"
+    registrator_image     = "${var.registrator_image}"
     awslogs_group         = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
     awslogs_stream_prefix = "consul-agent-${aws_ecs_cluster.cluster.name}" # "${aws_ecs_cluster.cluster.name}"
     awslogs_region        = "${var.region}"
@@ -13,7 +14,7 @@ data "template_file" "consul" {
 # End Data block
 
 resource "aws_ecs_task_definition" "consul" {
-  count                 = "${var.enable_agent ? 1 : 0}"
+  count                 = "${var.enable_agents ? 1 : 0}"
   family                = "consul-agent-${aws_ecs_cluster.cluster.name}"
   container_definitions = "${data.template_file.consul.rendered}"
   network_mode          = "host"
@@ -31,7 +32,7 @@ resource "aws_ecs_task_definition" "consul" {
 }
 
 resource "aws_cloudwatch_log_group" "consul" {
-  count = "${var.enable_agent ? 1 : 0}"
+  count = "${var.enable_agents ? 1 : 0}"
   name  = "${aws_ecs_task_definition.consul.family}"
 
   tags {
@@ -41,7 +42,7 @@ resource "aws_cloudwatch_log_group" "consul" {
 }
 
 resource "aws_ecs_service" "consul" {
-  count           = "${var.enable_agent ? 1 : 0}"
+  count           = "${var.enable_agents ? 1 : 0}"
   name            = "consul-agent-${aws_ecs_cluster.cluster.name}"
   cluster         = "${aws_ecs_cluster.cluster.id}"
   task_definition = "${aws_ecs_task_definition.consul.arn}"

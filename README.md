@@ -41,7 +41,8 @@ extra_tags = [
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 
 - `consul_image` - Image to use when deploying consul, defaults to the hashicorp consul image
-- `enable_agent` - Enable Consul Agent and Registrator tasks on each ECS Instance
+- `registrator_image` - Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest
+- `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
 
 Usage
 -----

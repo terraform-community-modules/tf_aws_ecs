@@ -40,7 +40,7 @@ variable "dockerhub_token" {
   description = "Auth Token used for dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
 }
 
-variable "enable_agent" {
+variable "enable_agents" {
   default     = false
   description = "Enable Consul Agent and Registrator tasks on each ECS Instance"
 }
@@ -74,6 +74,12 @@ variable "name_prefix" {
 variable "region" {
   default     = "us-east-1"
   description = "The region of AWS, for AMI lookups."
+}
+
+variable "registrator_image" {
+  default     = "gliderlabs/registrator:latest"
+  description = "Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest image"
+
 }
 
 variable "security_group_ids" {
