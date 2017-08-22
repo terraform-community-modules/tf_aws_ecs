@@ -40,6 +40,9 @@ extra_tags = [
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 
+- `consul_image` - Image to use when deploying consul, defaults to the hashicorp consul image
+- `enable_agent` - Enable Consul Agent and Registrator tasks on each ECS Instance
+
 Usage
 -----
 
@@ -54,6 +57,13 @@ module "ecs-cluster" {
 }
 
 ```
+
+#### Example cluster with consul and Registrator
+
+
+```hcl
+```
+
 
 Outputs
 =======
