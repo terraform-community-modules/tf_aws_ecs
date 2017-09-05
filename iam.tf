@@ -1,10 +1,12 @@
 resource "aws_iam_instance_profile" "ecs_profile" {
   name = "tf-created-AmazonECSContainerProfile-${var.name}"
   role = "${aws_iam_role.ecs-role.name}"
+  path = "${var.iam_path}"
 }
 
 resource "aws_iam_role" "ecs-role" {
   name = "tf-AmazonECSInstanceRole-${var.name}"
+  path = "${var.iam_path}"
 
   assume_role_policy = <<EOF
 {
@@ -32,6 +34,7 @@ EOF
 resource "aws_iam_policy" "ecs-policy" {
   name        = "tf-created-AmazonECSContainerInstancePolicy-${var.name}"
   description = "A terraform created policy for ECS"
+  path        = "${var.iam_path}"
 
   policy = <<EOF
 {
@@ -94,7 +97,7 @@ data "aws_iam_policy_document" "assume_role_consul_task" {
 resource "aws_iam_role" "consul_task" {
   count              = "${var.enable_agents ? 1 : 0}"
   name               = "${replace(format("%.64s", replace("tf-consul-agentTaskRole-${var.name}-${data.aws_vpc.vpc.tags["Name"]}", "_", "-")), "/\\s/", "-")}"
-  path               = "/"
+  path               = "${var.iam_path}"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_consul_task.json}"
 }
 
