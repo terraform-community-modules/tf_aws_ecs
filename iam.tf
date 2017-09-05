@@ -1,12 +1,12 @@
 resource "aws_iam_instance_profile" "ecs_profile" {
-  name = "tf-created-AmazonECSContainerProfile-${var.name}"
-  role = "${aws_iam_role.ecs-role.name}"
-  path = "${var.iam_path}"
+  name_prefix = "${replace(format("%.64s", replace("tf-ECSProfile-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  role        = "${aws_iam_role.ecs-role.name}"
+  path        = "${var.iam_path}"
 }
 
 resource "aws_iam_role" "ecs-role" {
-  name = "tf-AmazonECSInstanceRole-${var.name}"
-  path = "${var.iam_path}"
+  name_prefix = "${replace(format("%.32s", replace("tf-ECSInRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  path        = "${var.iam_path}"
 
   assume_role_policy = <<EOF
 {
@@ -32,7 +32,7 @@ EOF
 # "autoscaling:Describe*",
 
 resource "aws_iam_policy" "ecs-policy" {
-  name        = "tf-created-AmazonECSContainerInstancePolicy-${var.name}"
+  name_prefix = "${replace(format("%.64s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
 
@@ -96,14 +96,14 @@ data "aws_iam_policy_document" "assume_role_consul_task" {
 
 resource "aws_iam_role" "consul_task" {
   count              = "${var.enable_agents ? 1 : 0}"
-  name               = "${replace(format("%.64s", replace("tf-consul-agentTaskRole-${var.name}-${data.aws_vpc.vpc.tags["Name"]}", "_", "-")), "/\\s/", "-")}"
+  name_prefix        = "${replace(format("%.32s", replace("tf-agentTaskRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
   path               = "${var.iam_path}"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_consul_task.json}"
 }
 
 resource "aws_iam_role_policy" "consul_ecs_task" {
-  count  = "${var.enable_agents ? 1 : 0}"
-  name   = "${replace(format("%.64s", replace("tf-consul-agentTaskPolicy-${var.name}-${data.aws_vpc.vpc.tags["Name"]}", "_", "-")), "/\\s/", "-")}"
-  role   = "${aws_iam_role.consul_task.id}"
-  policy = "${data.aws_iam_policy_document.consul_task_policy.json}"
+  count       = "${var.enable_agents ? 1 : 0}"
+  name_prefix = "${replace(format("%.64s", replace("tf-agentTaskPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  role        = "${aws_iam_role.consul_task.id}"
+  policy      = "${data.aws_iam_policy_document.consul_task_policy.json}"
 }
