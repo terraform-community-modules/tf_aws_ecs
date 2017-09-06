@@ -5,7 +5,7 @@ resource "aws_iam_instance_profile" "ecs_profile" {
 }
 
 resource "aws_iam_role" "ecs-role" {
-  name_prefix = "${replace(format("%.38s", replace("tf-ECSInRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  name_prefix = "${replace(format("%.32s", replace("tf-ECSInRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
   path        = "${var.iam_path}"
 
   assume_role_policy = <<EOF
@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "assume_role_consul_task" {
 
 resource "aws_iam_role" "consul_task" {
   count              = "${var.enable_agents ? 1 : 0}"
-  name_prefix        = "${replace(format("%.38s", replace("tf-agentTaskRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  name_prefix        = "${replace(format("%.32s", replace("tf-agentTaskRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
   path               = "${var.iam_path}"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_consul_task.json}"
 }
