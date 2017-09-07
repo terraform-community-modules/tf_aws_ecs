@@ -70,12 +70,12 @@ variable "key_name" {
 
 variable "min_servers" {
   description = "Minimum number of ECS servers to run."
-  default = 1
+  default     = 1
 }
 
 variable "max_servers" {
   description = "Maximum number of ECS servers to run."
-  default = 10
+  default     = 10
 }
 
 variable "name" {
