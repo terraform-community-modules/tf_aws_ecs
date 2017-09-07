@@ -68,6 +68,16 @@ variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
 }
 
+variable "min_servers" {
+  description = "Minimum number of ECS servers to run."
+  default = 1
+}
+
+variable "max_servers" {
+  description = "Maximum number of ECS servers to run."
+  default = 10
+}
+
 variable "name" {
   description = "AWS ECS Cluster Name"
 }

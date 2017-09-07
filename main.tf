@@ -55,8 +55,8 @@ resource "aws_autoscaling_group" "ecs" {
   name                 = "asg-${aws_launch_configuration.ecs.name}"
   vpc_zone_identifier  = ["${var.subnet_id}"]
   launch_configuration = "${aws_launch_configuration.ecs.name}"
-  min_size             = 1
-  max_size             = 10
+  min_size             = "${var.min_servers}"
+  max_size             = "${var.max_servers}"
   desired_capacity     = "${var.servers}"
   termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
 
