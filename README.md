@@ -26,6 +26,7 @@ Module Input Variables
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 1
 - `min_servers`  - Minimum number of ECS Servers to start in the cluster - defaults to 1
 - `max_servers`  - Maximum number of ECS Servers to start in the cluster - defaults to 10
+- `load_balancers` - A list of elastic load balancer names to add to the autoscaling group names. - defaults to []
 - `instance_type` - AWS instance type - defaults to t2.micro
 - `iam_path` - IAM path, this is useful when creating resources with the same name across multiple regions. Defaults to /
 - `associate_public_ip_address` - assign a publicly-routable IP address to every instance in the cluster - default: `false`.
@@ -71,7 +72,7 @@ module "ecs-cluster" {
 
 In order to start the Consul/Registrator task in ECS, you'll need to pass in a consul config into the `additional_user_data_script` script parameter.  For example, you might pass something like this:
 
-Please note, this module will try to mount `/etc/consul/` into `/consul/config` in the container and assumes that the consul config lives under `/etc/consul` on the docker host.  
+Please note, this module will try to mount `/etc/consul/` into `/consul/config` in the container and assumes that the consul config lives under `/etc/consul` on the docker host.
 
 ```Shell
 /bin/mkdir -p /etc/consul
@@ -118,7 +119,7 @@ Outputs
 =======
 
 - `cluster_id` - _(String)_ ECS Cluster id for use in ECS task and service definitions.
-- `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
+- `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.
 
 Authors
 =======

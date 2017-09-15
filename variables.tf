@@ -107,6 +107,12 @@ variable "servers" {
   description = "The number of servers to launch."
 }
 
+variable "load_balancers" {
+  type        = "list"
+  description = "A list of elastic load balancer names to add to the autoscaling group names."
+  default     = []
+}
+
 variable "subnet_id" {
   type        = "list"
   description = "The AWS Subnet ID in which you want to delpoy your instances"
