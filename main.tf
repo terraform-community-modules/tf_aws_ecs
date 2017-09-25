@@ -52,7 +52,7 @@ resource "aws_launch_configuration" "ecs" {
 }
 
 resource "aws_autoscaling_group" "ecs" {
-  name                      = "asg-${aws_launch_configuration.ecs.name}"
+  name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
   vpc_zone_identifier       = ["${var.subnet_id}"]
   launch_configuration      = "${aws_launch_configuration.ecs.name}"
   min_size                  = "${var.min_servers}"
