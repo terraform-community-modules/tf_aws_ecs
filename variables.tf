@@ -46,7 +46,12 @@ variable "enable_agents" {
 }
 
 variable "extra_tags" {
+  type    = "list"
   default = []
+}
+
+variable "wait_for_capacity_timeout" {
+  default = "10m"
 }
 
 variable "heartbeat_timeout" {

@@ -53,18 +53,31 @@ resource "aws_launch_configuration" "ecs" {
 
 resource "aws_autoscaling_group" "ecs" {
   name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
-  vpc_zone_identifier  = ["${var.subnet_id}"]
-  launch_configuration = "${aws_launch_configuration.ecs.name}"
-  min_size             = "${var.min_servers}"
-  max_size             = "${var.max_servers}"
-  desired_capacity     = "${var.servers}"
-  termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
+  vpc_zone_identifier       = ["${var.subnet_id}"]
+  launch_configuration      = "${aws_launch_configuration.ecs.name}"
+  min_size                  = "${var.min_servers}"
+  max_size                  = "${var.max_servers}"
+  desired_capacity          = "${var.servers}"
+  wait_for_capacity_timeout = "${var.wait_for_capacity_timeout}"
 
-  tags = [{
-    key                 = "Name"
-    value               = "${var.name} ${var.tagName}"
-    propagate_at_launch = true
-  }]
+  termination_policies = [
+    "OldestLaunchConfiguration",
+    "ClosestToNextInstanceHour",
+    "Default",
+  ]
+
+  tags = [
+    {
+      key                 = "Name"
+      value               = "${var.name} ${var.tagName}"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Terraform"
+      value               = "yes"
+      propagate_at_launch = true
+    },
+  ]
 
   tags = ["${var.extra_tags}"]
 
@@ -100,7 +113,8 @@ resource "aws_security_group" "ecs" {
   }
 
   tags {
-    Name = "ecs-sg-${var.name}"
+    Name      = "ecs-sg-${var.name}"
+    Terraform = "yes"
   }
 }
 
