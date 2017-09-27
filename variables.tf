@@ -25,6 +25,16 @@ variable "consul_image" {
   default     = "consul:latest"
 }
 
+variable "root_volume_size" {
+  description = "Size of the root EBS volume for instance hosts."
+  default     = "50"
+}
+
+variable "root_volume_type" {
+  description = "Type of the root EBS volume for instance hosts."
+  default     = "standard"
+}
+
 variable "docker_storage_size" {
   default     = "22"
   description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
