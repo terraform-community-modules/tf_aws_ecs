@@ -40,6 +40,12 @@ variable "docker_storage_size" {
   description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
 }
 
+variable "docker_storage_type" {
+  default     = "standard"
+  description = "EBS Volume type that the ECS Instance uses for Docker images and metadata "
+}
+
+
 variable "dockerhub_email" {
   default     = ""
   description = "Email Address used to authenticate to dockerhub. http://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html"
