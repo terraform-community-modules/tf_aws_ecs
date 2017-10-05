@@ -58,7 +58,7 @@ resource "aws_launch_configuration" "ecs" {
 }
 
 resource "aws_autoscaling_group" "ecs" {
-  name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
+  name_prefix               = "${coalesce(var.name_prefix, "asg-${aws_launch_configuration.ecs.name}-")}"
   vpc_zone_identifier       = ["${var.subnet_id}"]
   launch_configuration      = "${aws_launch_configuration.ecs.name}"
   min_size                  = "${var.min_servers}"
@@ -93,7 +93,7 @@ resource "aws_autoscaling_group" "ecs" {
 }
 
 resource "aws_security_group" "ecs" {
-  name        = "ecs-sg-${var.name}"
+  name_prefix = "${coalesce(var.name_prefix, "ecs-sg-${var.name}-")}"
   description = "Container Instance Allowed Ports"
   vpc_id      = "${data.aws_vpc.vpc.id}"
 
