@@ -37,10 +37,16 @@ resource "aws_launch_configuration" "ecs" {
   security_groups             = ["${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"]
   associate_public_ip_address = "${var.associate_public_ip_address}"
 
+  root_block_device {
+    volume_size           = "${var.root_volume_size}"
+    volume_type           = "${var.root_volume_type}"
+    delete_on_termination = true
+  }
+
   ebs_block_device {
     device_name           = "/dev/xvdcz"
     volume_size           = "${var.docker_storage_size}"
-    volume_type           = "gp2"
+    volume_type           = "${var.docker_storage_type}"
     delete_on_termination = true
   }
 
@@ -52,20 +58,33 @@ resource "aws_launch_configuration" "ecs" {
 }
 
 resource "aws_autoscaling_group" "ecs" {
-  name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
-  vpc_zone_identifier  = ["${var.subnet_id}"]
-  launch_configuration = "${aws_launch_configuration.ecs.name}"
-  min_size             = "${var.min_servers}"
-  max_size             = "${var.max_servers}"
-  desired_capacity     = "${var.servers}"
-  termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
-  load_balancers       = ["${var.load_balancers}"]
+  name_prefix               = "${coalesce(var.name_prefix, "asg-${aws_launch_configuration.ecs.name}-")}"
+  vpc_zone_identifier       = ["${var.subnet_id}"]
+  launch_configuration      = "${aws_launch_configuration.ecs.name}"
+  min_size                  = "${var.min_servers}"
+  max_size                  = "${var.max_servers}"
+  desired_capacity          = "${var.servers}"
+  wait_for_capacity_timeout = "${var.wait_for_capacity_timeout}"
+  load_balancers            = ["${var.load_balancers}"]
 
-  tags = [{
-    key                 = "Name"
-    value               = "${var.name} ${var.tagName}"
-    propagate_at_launch = true
-  }]
+  termination_policies = [
+    "OldestLaunchConfiguration",
+    "ClosestToNextInstanceHour",
+    "Default",
+  ]
+
+  tags = [
+    {
+      key                 = "Name"
+      value               = "${var.name} ${var.tagName}"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Terraform"
+      value               = "yes"
+      propagate_at_launch = true
+    },
+  ]
 
   tags = ["${var.extra_tags}"]
 
@@ -75,7 +94,7 @@ resource "aws_autoscaling_group" "ecs" {
 }
 
 resource "aws_security_group" "ecs" {
-  name        = "ecs-sg-${var.name}"
+  name_prefix = "${coalesce(var.name_prefix, "ecs-sg-${var.name}-")}"
   description = "Container Instance Allowed Ports"
   vpc_id      = "${data.aws_vpc.vpc.id}"
 
@@ -101,7 +120,8 @@ resource "aws_security_group" "ecs" {
   }
 
   tags {
-    Name = "ecs-sg-${var.name}"
+    Name      = "ecs-sg-${var.name}"
+    Terraform = "yes"
   }
 }
 
