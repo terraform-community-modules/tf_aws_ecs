@@ -25,10 +25,26 @@ variable "consul_image" {
   default     = "consul:latest"
 }
 
+variable "root_volume_size" {
+  description = "Size of the root EBS volume for instance hosts."
+  default     = "50"
+}
+
+variable "root_volume_type" {
+  description = "Type of the root EBS volume for instance hosts."
+  default     = "standard"
+}
+
 variable "docker_storage_size" {
   default     = "22"
   description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
 }
+
+variable "docker_storage_type" {
+  default     = "standard"
+  description = "EBS Volume type that the ECS Instance uses for Docker images and metadata "
+}
+
 
 variable "dockerhub_email" {
   default     = ""
@@ -46,7 +62,12 @@ variable "enable_agents" {
 }
 
 variable "extra_tags" {
+  type    = "list"
   default = []
+}
+
+variable "wait_for_capacity_timeout" {
+  default = "10m"
 }
 
 variable "heartbeat_timeout" {
@@ -119,6 +140,11 @@ variable "tagName" {
 
 variable "user_data" {
   default = ""
+}
+
+variable "load_balancers" {
+  type    = "list"
+  default = []
 }
 
 variable "vpc_id" {
