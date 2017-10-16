@@ -121,6 +121,11 @@ variable "user_data" {
   default = ""
 }
 
+variable "load_balancers" {
+  type    = "list"
+  default = []
+}
+
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
