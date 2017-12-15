@@ -35,6 +35,7 @@ resource "aws_iam_policy" "ecs-policy" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
+  count       = "${1 - var.use_custom_iam_policy}"
 
   policy = <<EOF
 {
@@ -55,11 +56,7 @@ resource "aws_iam_policy" "ecs-policy" {
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "cloudwatch:PutMetricData",
-        "cloudwatch:GetMetricStatistics",
-        "cloudwatch:ListMetrics",
-        "ec2:DescribeTags"
+        "logs:PutLogEvents"
       ],
       "Resource": "*"
     }
@@ -68,10 +65,19 @@ resource "aws_iam_policy" "ecs-policy" {
 EOF
 }
 
+resource "aws_iam_policy" "custom-ecs-policy" {
+  name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
+  description = "A terraform created policy for ECS"
+  path        = "${var.iam_path}"
+  count       = "${var.use_custom_iam_policy}"
+
+  policy = "${var.custom_iam_policy}"
+}
+
 resource "aws_iam_policy_attachment" "attach-ecs" {
   name       = "ecs-attachment"
   roles      = ["${aws_iam_role.ecs-role.name}"]
-  policy_arn = "${aws_iam_policy.ecs-policy.arn}"
+  policy_arn = "${element(concat(aws_iam_policy.ecs-policy.*.arn, aws_iam_policy.custom-ecs-policy.*.arn), 0)}"
 }
 
 # IAM Resources for Consul and Registrator Agents
