@@ -126,6 +126,7 @@ Authors
 
 * [Tim Hartmann](https://github.com/tfhartmann)
 * [Joe Stump](https://github.com/joestump)
+* [Michal](https://github.com/mbolek)
 
 License
 =======
