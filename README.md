@@ -48,6 +48,8 @@ extra_tags = [
 - `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutodwn hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
+-  use_custom_iam_policy - Bool to control usage of custom IAM policy
+-  custom_iam_policy -  JSON containing the custom IAM policy for ECS nodes
 
 - `consul_image` - Image to use when deploying consul, defaults to the hashicorp consul image
 - `registrator_image` - Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest
@@ -118,6 +120,7 @@ Outputs
 =======
 
 - `cluster_id` - _(String)_ ECS Cluster id for use in ECS task and service definitions.
+- `cluster_name` - (String) ECS Cluster name that can be used for CloudWatch app autoscaling policy resource_id.
 - `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
 
 Authors
