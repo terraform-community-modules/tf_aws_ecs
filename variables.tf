@@ -59,6 +59,11 @@ variable "iam_path" {
   description = "IAM path, this is useful when creating resources with the same name across multiple regions. Defaults to /"
 }
 
+variable "custom_iam_policy" {
+  default     = ""
+  description = "Custom IAM policy (JSON). If set will overwrite the default one"
+}
+
 variable "instance_type" {
   default     = "t2.micro"
   description = "AWS Instance type, if you change, make sure it is compatible with AMI, not all AMIs allow all instance types "
