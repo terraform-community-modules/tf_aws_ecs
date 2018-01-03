@@ -1,10 +1,10 @@
 resource "aws_iam_instance_profile" "ecs_profile" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSProfile-${var.name}-", "_", "-")), "/\\s/", "-")}"
-  role        = "${aws_iam_role.ecs-role.name}"
+  role        = "${aws_iam_role.ecs_role.name}"
   path        = "${var.iam_path}"
 }
 
-resource "aws_iam_role" "ecs-role" {
+resource "aws_iam_role" "ecs_role" {
   name_prefix = "${replace(format("%.32s", replace("tf-ECSInRole-${var.name}-", "_", "-")), "/\\s/", "-")}"
   path        = "${var.iam_path}"
 
@@ -31,7 +31,7 @@ EOF
 # "ec2:Describe*",
 # "autoscaling:Describe*",
 
-resource "aws_iam_policy" "ecs-policy" {
+resource "aws_iam_policy" "ecs_policy" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "ecs-policy" {
 EOF
 }
 
-resource "aws_iam_policy" "custom-ecs-policy" {
+resource "aws_iam_policy" "custom_ecs_policy" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
@@ -74,10 +74,10 @@ resource "aws_iam_policy" "custom-ecs-policy" {
   policy = "${var.custom_iam_policy}"
 }
 
-resource "aws_iam_policy_attachment" "attach-ecs" {
+resource "aws_iam_policy_attachment" "attach_ecs" {
   name       = "ecs-attachment"
-  roles      = ["${aws_iam_role.ecs-role.name}"]
-  policy_arn = "${element(concat(aws_iam_policy.ecs-policy.*.arn, aws_iam_policy.custom-ecs-policy.*.arn), 0)}"
+  roles      = ["${aws_iam_role.ecs_role.name}"]
+  policy_arn = "${element(concat(aws_iam_policy.ecs_policy.*.arn, aws_iam_policy.custom_ecs_policy.*.arn), 0)}"
 }
 
 # IAM Resources for Consul and Registrator Agents
