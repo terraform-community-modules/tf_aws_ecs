@@ -27,7 +27,7 @@ variable "consul_image" {
 
 variable "consul_memory_reservation" {
   description = "The soft limit (in MiB) of memory to reserve for the container, defaults 20"
-  default     = "20"
+  default     = "32"
 }
 
 variable "docker_storage_size" {
@@ -108,7 +108,7 @@ variable "registrator_image" {
 
 variable "registrator_memory_reservation" {
   description = "The soft limit (in MiB) of memory to reserve for the container, defaults 20"
-  default     = "20"
+  default     = "32"
 }
 
 variable "security_group_ids" {
