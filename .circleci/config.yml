@@ -15,7 +15,7 @@ jobs:
           command: if [ `terraform fmt | wc -c` -ne 0 ]; then echo "Some terraform files need be formatted, run 'terraform fmt' to fix"; exit 1; fi
       - run:
           name: "get tflint"
-          command: apk add wget ; wget https://github.com/wata727/tflint/releases/download/v0.4.2/tflint_linux_amd64.zip ; unzip tflint_linux_amd64.zip
+          command: apk update && apk add wget ; wget https://github.com/wata727/tflint/releases/download/v0.4.2/tflint_linux_amd64.zip ; unzip tflint_linux_amd64.zip
       - run:
           name: "install tflint"
           command: mkdir -p /usr/local/tflint/bin ; export PATH=/usr/local/tflint/bin:$PATH ; install tflint /usr/local/tflint/bin
