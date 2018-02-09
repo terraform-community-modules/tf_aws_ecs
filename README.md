@@ -52,6 +52,8 @@ extra_tags = [
 
 - `consul_image` - Image to use when deploying consul, defaults to the hashicorp consul image
 - `registrator_image` - Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest
+- `consul_memory_reservation` - The soft limit (in MiB) of memory to reserve for the container, defaults 20
+- `registrator_memory_reservation` - The soft limit (in MiB) of memory to reserve for the container, defaults 20
 - `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
 
 Usage

@@ -2,12 +2,14 @@ data "template_file" "consul" {
   template = "${file("${path.module}/templates/consul.json")}"
 
   vars {
-    env                   = "${aws_ecs_cluster.cluster.name}"
-    image                 = "${var.consul_image}"
-    registrator_image     = "${var.registrator_image}"
-    awslogs_group         = "consul-agent-${aws_ecs_cluster.cluster.name}"
-    awslogs_stream_prefix = "consul-agent-${aws_ecs_cluster.cluster.name}"
-    awslogs_region        = "${var.region}"
+    env                            = "${aws_ecs_cluster.cluster.name}"
+    image                          = "${var.consul_image}"
+    registrator_image              = "${var.registrator_image}"
+    consul_memory_reservation      = "${var.consul_memory_reservation}"
+    registrator_memory_reservation = "${var.registrator_memory_reservation}"
+    awslogs_group                  = "consul-agent-${aws_ecs_cluster.cluster.name}"
+    awslogs_stream_prefix          = "consul-agent-${aws_ecs_cluster.cluster.name}"
+    awslogs_region                 = "${var.region}"
   }
 }
 
@@ -42,11 +44,12 @@ resource "aws_cloudwatch_log_group" "consul" {
 }
 
 resource "aws_ecs_service" "consul" {
-  count           = "${var.enable_agents ? 1 : 0}"
-  name            = "consul-agent-${aws_ecs_cluster.cluster.name}"
-  cluster         = "${aws_ecs_cluster.cluster.id}"
-  task_definition = "${aws_ecs_task_definition.consul.arn}"
-  desired_count   = "${var.servers}"
+  count                              = "${var.enable_agents ? 1 : 0}"
+  name                               = "consul-agent-${aws_ecs_cluster.cluster.name}"
+  cluster                            = "${aws_ecs_cluster.cluster.id}"
+  task_definition                    = "${aws_ecs_task_definition.consul.arn}"
+  desired_count                      = "${var.servers}"
+  deployment_minimum_healthy_percent = "60"
 
   placement_constraints {
     type = "distinctInstance"
