@@ -25,6 +25,11 @@ variable "consul_image" {
   default     = "consul:latest"
 }
 
+variable "consul_memory_reservation" {
+  description = "The soft limit (in MiB) of memory to reserve for the container, defaults 20"
+  default     = "20"
+}
+
 variable "docker_storage_size" {
   default     = "22"
   description = "EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata "
@@ -99,6 +104,11 @@ variable "region" {
 variable "registrator_image" {
   default     = "gliderlabs/registrator:latest"
   description = "Image to use when deploying registrator agent, defaults to the gliderlabs registrator:latest image"
+}
+
+variable "registrator_memory_reservation" {
+  description = "The soft limit (in MiB) of memory to reserve for the container, defaults 20"
+  default     = "20"
 }
 
 variable "security_group_ids" {

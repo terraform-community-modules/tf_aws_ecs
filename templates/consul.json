@@ -2,7 +2,7 @@
         {
             "name": "consul_agent-${env}",
             "image": "${image}",
-            "memoryReservation": 512,
+            "memoryReservation": ${consul_memory_reservation},
             "environment": [
                 {
                     "name": "CONSUL_BIND_INTERFACE",
@@ -30,7 +30,7 @@
         {
             "name": "registrator-${env}",
             "image": "${registrator_image}",
-            "memoryReservation": 256,
+            "memoryReservation": ${registrator_memory_reservation},
             "command": [
               "-retry-attempts=10", "-retry-interval=1000", "consul://localhost:8500"
             ],
