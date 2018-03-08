@@ -139,3 +139,8 @@ variable "user_data" {
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
+
+variable "ecs_platform" {
+  default = "linux"
+  description = "The OS of the underlying EC2 instances"
+}
