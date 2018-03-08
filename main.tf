@@ -1,3 +1,8 @@
+locals {
+  linux_ami = "amzn-ami-${var.ami_version}-amazon-ecs-optimized"
+  windows_ami = "Windows_Server-2016-English-Full-ECS_Optimized-${var.ami_version}"
+}
+
 data "aws_ami" "ecs_ami" {
   most_recent = true
 
@@ -8,12 +13,14 @@ data "aws_ami" "ecs_ami" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-${var.ami_version}-amazon-ecs-optimized"]
+    values = ["${var.ecs_platform == "windows" ? local.windows_ami : local.linux_ami}"]
   }
 }
 
+
+
 data "template_file" "user_data" {
-  template = "${file("${path.module}/templates/user_data.tpl")}"
+  template = "${var.ecs_platform == "windows" ? "${file("${path.module}/templates/windows_user_data.tpl")}" : "${file("${path.module}/templates/linux_user_data.tpl")}"}"
 
   vars {
     additional_user_data_script = "${var.additional_user_data_script}"
@@ -38,7 +45,7 @@ resource "aws_launch_configuration" "ecs" {
   associate_public_ip_address = "${var.associate_public_ip_address}"
 
   ebs_block_device {
-    device_name           = "/dev/xvdcz"
+    device_name = "${var.ecs_platform == "windows" ? "/dev/sda2" : "/dev/xvdcz"}"
     volume_size           = "${var.docker_storage_size}"
     volume_type           = "gp2"
     delete_on_termination = true
