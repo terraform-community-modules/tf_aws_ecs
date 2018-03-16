@@ -50,6 +50,11 @@ variable "enable_agents" {
   description = "Enable Consul Agent and Registrator tasks on each ECS Instance"
 }
 
+variable "ebs_block_device" {
+  default     = "/dev/xvdcz"
+  description = "EBS block devices to attach to the instance. (default: /dev/xvdcz)"
+}
+
 variable "extra_tags" {
   default = []
 }
