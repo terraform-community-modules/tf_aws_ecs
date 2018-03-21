@@ -22,6 +22,7 @@ Module Input Variables
 **NOTE About User Data:** The `user_data` parameter overwrites the `user_data` template used by this module, this will break some of the module features (e.g. `docker_storage_size`, `dockerhub_token`, and `dockerhub_email`). However, `additional_user_data_script` will concatenate additional data to the end of the current `user_data` script. It is recomended that you use `additional_user_data_script`. These two parameters are mutually exclusive - you can not pass both into this module and expect it to work.
 
 - `additional_user_data_script` - Additional `user_data` scripts content
+- `ebs_block_device` - EBS block devices to attach to the instance. (default: /dev/xvdcz)
 - `region` - AWS Region - defaults to us-east-1
 - `servers`  - Number of ECS Servers to start in the cluster - defaults to 1
 - `min_servers`  - Minimum number of ECS Servers to start in the cluster - defaults to 1

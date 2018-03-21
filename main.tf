@@ -38,7 +38,7 @@ resource "aws_launch_configuration" "ecs" {
   associate_public_ip_address = "${var.associate_public_ip_address}"
 
   ebs_block_device {
-    device_name           = "/dev/xvdcz"
+    device_name           = "${var.ebs_block_device}"
     volume_size           = "${var.docker_storage_size}"
     volume_type           = "gp2"
     delete_on_termination = true
