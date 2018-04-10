@@ -13,3 +13,6 @@ output "autoscaling_group" {
     arn  = "${aws_autoscaling_group.ecs.arn}"
   }
 }
+output "iam_role_arn" {
+  value = "${aws_iam_role.ecs_role.arn}"
+}
