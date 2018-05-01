@@ -72,10 +72,16 @@ resource "aws_iam_policy" "custom_ecs_policy" {
   policy = "${var.custom_iam_policy}"
 }
 
-resource "aws_iam_policy_attachment" "attach_ecs" {
+resource "aws_iam_role_policy_attachment" "attach_ecs_policy" {
   name       = "ecs-attachment"
-  roles      = ["${aws_iam_role.ecs_role.name}"]
-  policy_arn = "${element(concat(aws_iam_policy.ecs_policy.*.arn, aws_iam_policy.custom_ecs_policy.*.arn), 0)}"
+  roles      = "${aws_iam_role.ecs_role.name}"
+  policy_arn = "${aws_iam_policy.ecs_policy.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "attach_custom_policy" {
+  name       = "custom-attachment"
+  roles      = "${aws_iam_role.ecs_role.name}"
+  policy_arn = "${aws_iam_policy.custom_ecs_policy.arn}"
 }
 
 # IAM Resources for Consul and Registrator Agents
