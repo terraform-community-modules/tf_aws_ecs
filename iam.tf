@@ -73,14 +73,12 @@ resource "aws_iam_policy" "custom_ecs_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_ecs_policy" {
-  name       = "ecs-attachment"
-  roles      = "${aws_iam_role.ecs_role.name}"
+  role       = "${aws_iam_role.ecs_role.name}"
   policy_arn = "${aws_iam_policy.ecs_policy.arn}"
 }
 
 resource "aws_iam_role_policy_attachment" "attach_custom_policy" {
-  name       = "custom-attachment"
-  roles      = "${aws_iam_role.ecs_role.name}"
+  role       = "${aws_iam_role.ecs_role.name}"
   policy_arn = "${aws_iam_policy.custom_ecs_policy.arn}"
 }
 
