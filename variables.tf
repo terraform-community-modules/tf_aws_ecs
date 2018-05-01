@@ -72,6 +72,7 @@ variable "iam_path" {
 variable "custom_iam_policy" {
   default     = ""
   description = "Custom IAM policy (JSON). If set will overwrite the default one"
+  default     = ""
 }
 
 variable "instance_type" {

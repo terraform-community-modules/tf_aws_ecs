@@ -35,7 +35,6 @@ resource "aws_iam_policy" "ecs_policy" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
-  count       = "${length(var.custom_iam_policy) > 0 ? 0 : 1}"
 
   policy = <<EOF
 {
@@ -69,7 +68,6 @@ resource "aws_iam_policy" "custom_ecs_policy" {
   name_prefix = "${replace(format("%.102s", replace("tf-ECSInPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
   description = "A terraform created policy for ECS"
   path        = "${var.iam_path}"
-  count       = "${length(var.custom_iam_policy) > 0 ? 1 : 0}"
 
   policy = "${var.custom_iam_policy}"
 }
