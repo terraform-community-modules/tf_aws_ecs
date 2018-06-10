@@ -46,7 +46,7 @@ extra_tags = [
 - `allowed_cidr_blocks` - List of subnets to allow into the ECS Security Group. Defaults to `["0.0.0.0/0"]`.
 - `ami` - A specific AMI image to use, eg `ami-95f8d2f3`. Defaults to the latest ECS optimized Amazon Linux AMI.
 - `ami_version` - Specific version of the Amazon ECS AMI to use (e.g. `2016.09`). Defaults to `*`. Ignored if `ami` is specified.
-- `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutodwn hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
+- `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutdown hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 -  custom_iam_policy -  JSON containing the custom IAM policy for ECS nodes. Will overwrite the default one if set.
@@ -56,6 +56,8 @@ extra_tags = [
 - `consul_memory_reservation` - The soft limit (in MiB) of memory to reserve for the container, defaults 20
 - `registrator_memory_reservation` - The soft limit (in MiB) of memory to reserve for the container, defaults 20
 - `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
+- `spot_bid_price` - Use spot instances and request this bid price.  Note that with this option you risk your instances
+                     shutting down if the market price rises above your bid price. 
 
 Usage
 -----
