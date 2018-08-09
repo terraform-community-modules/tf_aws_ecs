@@ -56,7 +56,7 @@ variable "ebs_block_device" {
 }
 
 variable "extra_tags" {
-  type = "list"
+  type    = "list"
   default = []
 }
 
@@ -129,7 +129,7 @@ variable "servers" {
 }
 
 variable "spot_bid_price" {
-  default = ""
+  default     = ""
   description = "If specified, spot instances will be requested at this bid price.  If not specified, on-demand instances will be used."
 }
 
