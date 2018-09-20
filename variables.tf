@@ -56,6 +56,7 @@ variable "ebs_block_device" {
 }
 
 variable "extra_tags" {
+  type    = "list"
   default = []
 }
 
@@ -125,6 +126,11 @@ variable "security_group_ids" {
 variable "servers" {
   default     = "1"
   description = "The number of servers to launch."
+}
+
+variable "spot_bid_price" {
+  default     = ""
+  description = "If specified, spot instances will be requested at this bid price.  If not specified, on-demand instances will be used."
 }
 
 variable "subnet_id" {
