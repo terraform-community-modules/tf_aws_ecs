@@ -84,6 +84,12 @@ variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
 }
 
+variable "load_balancers" {
+  type        = "list"
+  default     = []
+  description = "A list of elastic load balancer names to add to the autoscaling group names. Only valid for classic load balancers."
+}
+
 variable "min_servers" {
   description = "Minimum number of ECS servers to run."
   default     = 1

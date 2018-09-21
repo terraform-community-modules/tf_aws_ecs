@@ -60,6 +60,7 @@ resource "aws_autoscaling_group" "ecs" {
   max_size             = "${var.max_servers}"
   desired_capacity     = "${var.servers}"
   termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
+  load_balancers       = ["${var.load_balancers}"]
 
   tags = [{
     key                 = "Name"
