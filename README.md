@@ -28,6 +28,7 @@ Module Input Variables
 - `min_servers`  - Minimum number of ECS Servers to start in the cluster - defaults to 1
 - `max_servers`  - Maximum number of ECS Servers to start in the cluster - defaults to 10
 - `instance_type` - AWS instance type - defaults to t2.micro
+- `load_balancers` - List of elastic load balancer (classic only) names to put in front of your instances - defaults to []
 - `iam_path` - IAM path, this is useful when creating resources with the same name across multiple regions. Defaults to /
 - `associate_public_ip_address` - assign a publicly-routable IP address to every instance in the cluster - default: `false`.
 - `docker_storage_size` - EBS Volume size in Gib that the ECS Instance uses for Docker images and metadata - defaults to 22
