@@ -56,7 +56,7 @@ variable "ebs_block_device" {
 }
 
 variable "extra_tags" {
-  type = "list"
+  type    = "list"
   default = []
 }
 
@@ -82,6 +82,12 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
+}
+
+variable "load_balancers" {
+  type        = "list"
+  default     = []
+  description = "A list of elastic load balancer names to add to the autoscaling group names. Only valid for classic load balancers."
 }
 
 variable "min_servers" {
@@ -129,7 +135,7 @@ variable "servers" {
 }
 
 variable "spot_bid_price" {
-  default = ""
+  default     = ""
   description = "If specified, spot instances will be requested at this bid price.  If not specified, on-demand instances will be used."
 }
 
