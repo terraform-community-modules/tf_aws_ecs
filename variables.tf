@@ -156,3 +156,9 @@ variable "user_data" {
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
 }
+
+variable "enabled_metrics" {
+  description = "A list of metrics to collect"
+  type        = "list"
+  default     = []
+}

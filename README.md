@@ -59,6 +59,7 @@ extra_tags = [
 - `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
 - `spot_bid_price` - Use spot instances and request this bid price.  Note that with this option you risk your instances
                      shutting down if the market price rises above your bid price. 
+- `enabled_metrics` - A list of metrics to collect.
 
 Usage
 -----
