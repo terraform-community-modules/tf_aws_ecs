@@ -129,6 +129,8 @@ Outputs
 - `cluster_name` - (String) ECS Cluster name that can be used for CloudWatch app autoscaling policy resource_id.
 - `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
 - `iam_role` _(Map)_ A map with keys `arn` and `name` of the `iam_role` created.
+- `security_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_security_group` created.
+>>>>>>> (Chore) Output ecs security group
 
 Authors
 =======

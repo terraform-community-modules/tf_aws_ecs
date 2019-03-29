@@ -28,3 +28,11 @@ output "iam_role" {
     arn  = "${aws_iam_role.ecs_role.arn}"
   }
 }
+
+output "security_group" {
+  value = {
+    id   = "${aws_security_group.ecs.id}"
+    name = "${aws_security_group.ecs.name}"
+    arn  = "${aws_security_group.ecs.arn}"
+  }
+}
