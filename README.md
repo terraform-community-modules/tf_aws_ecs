@@ -130,7 +130,6 @@ Outputs
 - `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
 - `iam_role` _(Map)_ A map with keys `arn` and `name` of the `iam_role` created.
 - `security_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_security_group` created.
->>>>>>> (Chore) Output ecs security group
 
 Authors
 =======
