@@ -70,6 +70,10 @@ resource "aws_autoscaling_group" "ecs" {
   lifecycle {
     create_before_destroy = true
   }
+
+  timeouts {
+    delete = "${var.heartbeat_timeout + var.asg_delete_extra_timeout}"
+  }
 }
 
 resource "aws_security_group" "ecs" {
