@@ -72,7 +72,7 @@ resource "aws_autoscaling_group" "ecs" {
   }
 
   timeouts {
-    delete = "${var.heartbeat_timeout + var.asg_delete_extra_timeout}"
+    delete = "${var.heartbeat_timeout + var.asg_delete_extra_timeout}s"
   }
 }
 
