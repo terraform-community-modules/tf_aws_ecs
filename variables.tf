@@ -170,5 +170,5 @@ variable "enabled_metrics" {
 
 variable "aws_ecs_root_block_size" {
   description = "The size of the aws_launch_configuration.ecs root_block_device volume in gigabytes."
-  default = "100"
+  default     = "100"
 }
