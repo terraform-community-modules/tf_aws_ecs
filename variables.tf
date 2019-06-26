@@ -8,6 +8,12 @@ variable "allowed_cidr_blocks" {
   description = "List of subnets to allow into the ECS Security Group. Defaults to ['0.0.0.0/0']"
 }
 
+variable "allowed_egress_cidr_blocks" {
+  default     = ["0.0.0.0/0"]
+  type        = "list"
+  description = "List of subnets to allow out of the ECS Security Group. Defaults to ['0.0.0.0/0']"
+}
+
 variable "ami" {
   default = ""
 }
