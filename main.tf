@@ -1,10 +1,6 @@
 data "aws_ami" "ecs_ami" {
   most_recent = true
-
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
@@ -61,6 +57,7 @@ resource "aws_autoscaling_group" "ecs" {
   desired_capacity     = "${var.servers}"
   termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
   load_balancers       = ["${var.load_balancers}"]
+  enabled_metrics      = ["${var.enabled_metrics}"]
 
   tags = [{
     key                 = "Name"
@@ -72,6 +69,10 @@ resource "aws_autoscaling_group" "ecs" {
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  timeouts {
+    delete = "${var.heartbeat_timeout + var.asg_delete_extra_timeout}s"
   }
 }
 

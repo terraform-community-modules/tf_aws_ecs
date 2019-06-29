@@ -48,6 +48,7 @@ extra_tags = [
 - `ami` - A specific AMI image to use, eg `ami-95f8d2f3`. Defaults to the latest ECS optimized Amazon Linux AMI.
 - `ami_version` - Specific version of the Amazon ECS AMI to use (e.g. `2016.09`). Defaults to `*`. Ignored if `ami` is specified.
 - `heartbeat_timeout` - Heartbeat Timeout setting for how long it takes for the graceful shutdown hook takes to timeout. This is useful when deploying clustered applications like consul that benifit from having a deploy between autoscaling create/destroy actions. Defaults to 180"
+- `asg_delete_extra_timeout` - Extra time that `terraform apply` will wait for ASG deletion (default 600). This is added on top of `heartbeat_timeout`. This variable is customizable for when the instances take longer than 600sec to shut down once shutdown is initiated.
 - `security_group_ids` - a list of security group IDs to apply to the launch configuration
 - `user_data` - The instance user data (e.g. a `cloud-init` config) to use in the `aws_launch_configuration`
 -  custom_iam_policy -  JSON containing the custom IAM policy for ECS nodes. Will overwrite the default one if set.
@@ -59,6 +60,7 @@ extra_tags = [
 - `enable_agents` - Enable Consul Agent and Registrator tasks on each ECS Instance. Defaults to false
 - `spot_bid_price` - Use spot instances and request this bid price.  Note that with this option you risk your instances
                      shutting down if the market price rises above your bid price. 
+- `enabled_metrics` - A list of metrics to collect.
 
 Usage
 -----
@@ -127,6 +129,8 @@ Outputs
 - `cluster_id` - _(String)_ ECS Cluster id for use in ECS task and service definitions.
 - `cluster_name` - (String) ECS Cluster name that can be used for CloudWatch app autoscaling policy resource_id.
 - `autoscaling_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_autoscaling_group` created.  
+- `iam_role` _(Map)_ A map with keys `arn` and `name` of the `iam_role` created.
+- `security_group` _(Map)_ A map with keys `id`, `name`, and `arn` of the `aws_security_group` created.
 
 Authors
 =======

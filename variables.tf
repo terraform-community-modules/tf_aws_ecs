@@ -65,6 +65,11 @@ variable "heartbeat_timeout" {
   default     = "180"
 }
 
+variable "asg_delete_extra_timeout" {
+  description = "Extra time that `terraform apply` will wait for ASG deletion (default 600). This is added on top of `heartbeat_timeout`. This variable is customizable for when the instances take longer than 600sec to shut down once shutdown is initiated."
+  default     = "600"
+}
+
 variable "iam_path" {
   default     = "/"
   description = "IAM path, this is useful when creating resources with the same name across multiple regions. Defaults to /"
@@ -155,4 +160,10 @@ variable "user_data" {
 
 variable "vpc_id" {
   description = "The AWS VPC ID which you want to deploy your instances"
+}
+
+variable "enabled_metrics" {
+  description = "A list of metrics to collect"
+  type        = "list"
+  default     = []
 }
