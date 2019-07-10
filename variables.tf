@@ -4,7 +4,7 @@ variable "additional_user_data_script" {
 
 variable "allowed_cidr_blocks" {
   default     = ["0.0.0.0/0"]
-  type        = "list"
+  type        = list(string)
   description = "List of subnets to allow into the ECS Security Group. Defaults to ['0.0.0.0/0']"
 }
 
@@ -56,8 +56,8 @@ variable "ebs_block_device" {
 }
 
 variable "extra_tags" {
-  type    = "list"
-  default = []
+  type = map(string)
+  default = {}
 }
 
 variable "heartbeat_timeout" {
@@ -90,7 +90,7 @@ variable "key_name" {
 }
 
 variable "load_balancers" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "A list of elastic load balancer names to add to the autoscaling group names. Only valid for classic load balancers."
 }
@@ -129,7 +129,7 @@ variable "registrator_memory_reservation" {
 }
 
 variable "security_group_ids" {
-  type        = "list"
+  type        = list(string)
   description = "A list of Security group IDs to apply to the launch configuration"
   default     = []
 }
@@ -145,7 +145,7 @@ variable "spot_bid_price" {
 }
 
 variable "subnet_id" {
-  type        = "list"
+  type        = list(string)
   description = "The AWS Subnet ID in which you want to delpoy your instances"
 }
 
@@ -164,6 +164,7 @@ variable "vpc_id" {
 
 variable "enabled_metrics" {
   description = "A list of metrics to collect"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
+
