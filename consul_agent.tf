@@ -1,7 +1,7 @@
 data "template_file" "consul" {
   template = "${file("${path.module}/templates/consul.json")}"
 
-  vars {
+  vars = {
     env                            = "${aws_ecs_cluster.cluster.name}"
     image                          = "${var.consul_image}"
     registrator_image              = "${var.registrator_image}"

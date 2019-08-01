@@ -11,7 +11,7 @@ data "aws_ami" "ecs_ami" {
 data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data.tpl")}"
 
-  vars {
+  vars = {
     additional_user_data_script = "${var.additional_user_data_script}"
     cluster_name                = "${aws_ecs_cluster.cluster.name}"
     docker_storage_size         = "${var.docker_storage_size}"
@@ -106,7 +106,7 @@ resource "aws_security_group" "ecs" {
     cidr_blocks = "${var.allowed_egress_cidr_blocks}"
   }
 
-  tags {
+  tags = {
     Name = "ecs-sg-${var.name}"
   }
 }
