@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "consul" {
   family                = "consul-agent-${aws_ecs_cluster.cluster.name}"
   container_definitions = "${data.template_file.consul.rendered}"
   network_mode          = "host"
-  task_role_arn         = "${aws_iam_role.consul_task.arn}"
+  task_role_arn         = "${aws_iam_role.consul_task[0].arn}"
 
   volume {
     name      = "consul-config-dir"

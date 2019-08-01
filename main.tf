@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "ecs" {
   instance_type               = "${var.instance_type}"
   key_name                    = "${var.key_name}"
   iam_instance_profile        = "${aws_iam_instance_profile.ecs_profile.name}"
-  security_groups             = ["${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"]
+  security_groups             = "${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
   spot_price                  = "${var.spot_bid_price}"
 
