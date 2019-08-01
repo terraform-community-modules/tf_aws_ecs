@@ -11,7 +11,7 @@ data "aws_ami" "ecs_ami" {
 data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data.tpl")}"
 
-  vars {
+  vars = {
     additional_user_data_script = "${var.additional_user_data_script}"
     cluster_name                = "${aws_ecs_cluster.cluster.name}"
     docker_storage_size         = "${var.docker_storage_size}"
@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "ecs" {
   instance_type               = "${var.instance_type}"
   key_name                    = "${var.key_name}"
   iam_instance_profile        = "${aws_iam_instance_profile.ecs_profile.name}"
-  security_groups             = ["${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"]
+  security_groups             = "${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
   spot_price                  = "${var.spot_bid_price}"
 
@@ -106,7 +106,7 @@ resource "aws_security_group" "ecs" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     Name = "ecs-sg-${var.name}"
   }
 }
