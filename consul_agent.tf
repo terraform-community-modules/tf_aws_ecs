@@ -1,7 +1,7 @@
 data "template_file" "consul" {
   template = "${file("${path.module}/templates/consul.json")}"
 
-  vars {
+  vars = {
     env                            = "${aws_ecs_cluster.cluster.name}"
     image                          = "${var.consul_image}"
     registrator_image              = "${var.registrator_image}"
@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "consul" {
   family                = "consul-agent-${aws_ecs_cluster.cluster.name}"
   container_definitions = "${data.template_file.consul.rendered}"
   network_mode          = "host"
-  task_role_arn         = "${aws_iam_role.consul_task.arn}"
+  task_role_arn         = "${aws_iam_role.consul_task[0].arn}"
 
   volume {
     name      = "consul-config-dir"
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "consul" {
 
 resource "aws_cloudwatch_log_group" "consul" {
   count = "${var.enable_agents ? 1 : 0}"
-  name  = "${aws_ecs_task_definition.consul.family}"
+  name  = "${aws_ecs_task_definition.consul[0].family}"
 
   tags {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
@@ -47,7 +47,7 @@ resource "aws_ecs_service" "consul" {
   count                              = "${var.enable_agents ? 1 : 0}"
   name                               = "consul-agent-${aws_ecs_cluster.cluster.name}"
   cluster                            = "${aws_ecs_cluster.cluster.id}"
-  task_definition                    = "${aws_ecs_task_definition.consul.arn}"
+  task_definition                    = "${aws_ecs_task_definition.consul[0].arn}"
   desired_count                      = "${var.servers}"
   deployment_minimum_healthy_percent = "60"
 
