@@ -48,6 +48,16 @@ resource "aws_launch_configuration" "ecs" {
   }
 }
 
+locals {
+  ecs_asg_tags_init = [{
+    key                 = "Name"
+    value               = "${var.name} ${var.tagName}"
+    propagate_at_launch = true
+  }]
+
+  ecs_asg_tags = "${concat(local.ecs_asg_tags_init, var.extra_tags)}"
+}
+
 resource "aws_autoscaling_group" "ecs" {
   name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
   vpc_zone_identifier  = ["${var.subnet_id}"]
@@ -59,13 +69,7 @@ resource "aws_autoscaling_group" "ecs" {
   load_balancers       = ["${var.load_balancers}"]
   enabled_metrics      = ["${var.enabled_metrics}"]
 
-  tags = [{
-    key                 = "Name"
-    value               = "${var.name} ${var.tagName}"
-    propagate_at_launch = true
-  }]
-
-  tags = ["${var.extra_tags}"]
+  tags = ["${local.ecs_asg_tags}"]
 
   lifecycle {
     create_before_destroy = true
