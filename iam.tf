@@ -114,6 +114,6 @@ resource "aws_iam_role" "consul_task" {
 resource "aws_iam_role_policy" "consul_ecs_task" {
   count       = "${var.enable_agents ? 1 : 0}"
   name_prefix = "${replace(format("%.102s", replace("tf-agentTaskPol-${var.name}-", "_", "-")), "/\\s/", "-")}"
-  role        = "${aws_iam_role.consul_task.id}"
+  role        = "${aws_iam_role.consul_task[0].id}"
   policy      = "${data.aws_iam_policy_document.consul_task_policy.json}"
 }
