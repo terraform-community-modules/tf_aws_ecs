@@ -60,7 +60,7 @@ locals {
 
 resource "aws_autoscaling_group" "ecs" {
   name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
-  vpc_zone_identifier  = "${var.subnet_id}"
+  vpc_zone_identifier  = "${var.subnet_id[0]}"
   launch_configuration = "${aws_launch_configuration.ecs.name}"
   min_size             = "${var.min_servers}"
   max_size             = "${var.max_servers}"
@@ -69,7 +69,7 @@ resource "aws_autoscaling_group" "ecs" {
   load_balancers       = "${var.load_balancers}"
   enabled_metrics      = "${var.enabled_metrics}"
 
-  tags = ["${local.ecs_asg_tags}"]
+  tags = "${local.ecs_asg_tags}"
 
   lifecycle {
     create_before_destroy = true
