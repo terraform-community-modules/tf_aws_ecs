@@ -37,7 +37,7 @@ resource "aws_cloudwatch_log_group" "consul" {
   count = "${var.enable_agents ? 1 : 0}"
   name  = "${aws_ecs_task_definition.consul[0].family}"
 
-  tags {
+  tags = {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
     Application = "${aws_ecs_task_definition.consul.family}"
   }
