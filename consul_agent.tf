@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "consul" {
 
 resource "aws_cloudwatch_log_group" "consul" {
   count = "${var.enable_agents ? 1 : 0}"
-  name  = "${aws_ecs_task_definition.consul.family}"
+  name  = "${aws_ecs_task_definition.consul[0].family}"
 
   tags {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
@@ -47,7 +47,7 @@ resource "aws_ecs_service" "consul" {
   count                              = "${var.enable_agents ? 1 : 0}"
   name                               = "consul-agent-${aws_ecs_cluster.cluster.name}"
   cluster                            = "${aws_ecs_cluster.cluster.id}"
-  task_definition                    = "${aws_ecs_task_definition.consul.arn}"
+  task_definition                    = "${aws_ecs_task_definition.consul[0].arn}"
   desired_count                      = "${var.servers}"
   deployment_minimum_healthy_percent = "60"
 
