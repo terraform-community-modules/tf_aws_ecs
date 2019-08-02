@@ -39,7 +39,7 @@ resource "aws_cloudwatch_log_group" "consul" {
 
   tags = {
     VPC         = "${data.aws_vpc.vpc.tags["Name"]}"
-    Application = "${aws_ecs_task_definition.consul.family}"
+    Application = "${aws_ecs_task_definition.consul[0].family}"
   }
 }
 
