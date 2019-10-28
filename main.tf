@@ -109,7 +109,7 @@ resource "aws_autoscaling_group" "ecs" {
 # Optional Second ASG
 resource "aws_autoscaling_group" "ecs_second" {
   count                = "${var.second_asg_servers > 0 ? 1 : 0}"
-  name_prefix          = "asg-second-${aws_launch_configuration.ecs.name}-"
+  name_prefix          = "asg-second-${aws_launch_configuration.ecs_second.name}-"
   vpc_zone_identifier  = ["${var.subnet_id}"]
   launch_configuration = "${aws_launch_configuration.ecs_second.name}"
   min_size             = "${var.second_asg_min_servers}"
