@@ -100,8 +100,18 @@ variable "min_servers" {
   default     = 1
 }
 
+variable "second_asg_min_servers" {
+  description = "Minimum number of ECS servers to run in the Second ASG."
+  default     = 1
+}
+
 variable "max_servers" {
   description = "Maximum number of ECS servers to run."
+  default     = 10
+}
+
+variable "second_asg_max_servers" {
+  description = "Maximum number of ECS servers to run in the Second ASG."
   default     = 10
 }
 
@@ -137,6 +147,11 @@ variable "security_group_ids" {
 variable "servers" {
   default     = "1"
   description = "The number of servers to launch."
+}
+
+variable "second_asg_servers" {
+  default     = "0"
+  description = "The number of servers to launch in the Second ASG, default 0 (in which case the Second ASG is not created)."
 }
 
 variable "spot_bid_price" {
