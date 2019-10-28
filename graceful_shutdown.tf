@@ -10,6 +10,7 @@ resource "aws_autoscaling_lifecycle_hook" "graceful_shutdown_asg_hook" {
 }
 
 resource "aws_autoscaling_lifecycle_hook" "graceful_shutdown_asg_hook_second" {
+  count                  = "${var.second_asg_servers > 0 ? 1 : 0}"
   name                   = "graceful_shutdown_asg"
   autoscaling_group_name = "${aws_autoscaling_group.ecs_second.name}"
   default_result         = "CONTINUE"
