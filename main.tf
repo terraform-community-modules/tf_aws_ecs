@@ -48,6 +48,36 @@ resource "aws_launch_configuration" "ecs" {
   }
 }
 
+# Optional Second Launch Config for the optional Second ASG
+resource "aws_launch_configuration" "ecs_second" {
+  count                       = "${var.second_asg_servers > 0 ? 1 : 0}"
+  name_prefix                 = "${coalesce(var.name_prefix, "ecs-second-${var.name}-")}"
+  image_id                    = "${var.second_asg_ami == "" ? format("%s", data.aws_ami.ecs_ami.id) : var.second_asg_ami}"   # Workaround until 0.9.6
+  instance_type               = "${var.instance_type}"
+  key_name                    = "${var.key_name}"
+  iam_instance_profile        = "${aws_iam_instance_profile.ecs_profile.name}"
+  security_groups             = ["${concat(list(aws_security_group.ecs.id), var.security_group_ids)}"]
+  associate_public_ip_address = "${var.associate_public_ip_address}"
+  spot_price                  = "${var.spot_bid_price}"
+
+  ebs_block_device {
+    device_name           = "${var.ebs_block_device}"
+    volume_size           = "${var.docker_storage_size}"
+    volume_type           = "gp2"
+    delete_on_termination = true
+  }
+
+  user_data = "${coalesce(var.user_data, data.template_file.user_data.rendered)}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  root_block_device {
+    volume_size = "${var.aws_ecs_root_block_size}"
+  }
+}
+
 resource "aws_autoscaling_group" "ecs" {
   name_prefix          = "asg-${aws_launch_configuration.ecs.name}-"
   vpc_zone_identifier  = ["${var.subnet_id}"]
@@ -81,7 +111,7 @@ resource "aws_autoscaling_group" "ecs_second" {
   count                = "${var.second_asg_servers > 0 ? 1 : 0}"
   name_prefix          = "asg-second-${aws_launch_configuration.ecs.name}-"
   vpc_zone_identifier  = ["${var.subnet_id}"]
-  launch_configuration = "${aws_launch_configuration.ecs.name}"
+  launch_configuration = "${aws_launch_configuration.ecs_second.name}"
   min_size             = "${var.second_asg_min_servers}"
   max_size             = "${var.second_asg_max_servers}"
   desired_capacity     = "${var.second_asg_servers}"
