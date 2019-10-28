@@ -76,6 +76,36 @@ resource "aws_autoscaling_group" "ecs" {
   }
 }
 
+# Optional Second ASG
+resource "aws_autoscaling_group" "ecs_second" {
+  count                = "${var.second_asg_servers > 0 ? 1 : 0}"
+  name_prefix          = "asg-second-${aws_launch_configuration.ecs.name}-"
+  vpc_zone_identifier  = ["${var.subnet_id}"]
+  launch_configuration = "${aws_launch_configuration.ecs.name}"
+  min_size             = "${var.second_asg_min_servers}"
+  max_size             = "${var.second_asg_max_servers}"
+  desired_capacity     = "${var.second_asg_servers}"
+  termination_policies = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour", "Default"]
+  load_balancers       = ["${var.load_balancers}"]
+  enabled_metrics      = ["${var.enabled_metrics}"]
+
+  tags = [{
+    key                 = "Name"
+    value               = "${var.name} ${var.tagName} Second"
+    propagate_at_launch = true
+  }]
+
+  tags = ["${var.extra_tags}"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  timeouts {
+    delete = "${var.heartbeat_timeout + var.asg_delete_extra_timeout}s"
+  }
+}
+
 resource "aws_security_group" "ecs" {
   name        = "ecs-sg-${var.name}"
   description = "Container Instance Allowed Ports"
