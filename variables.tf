@@ -12,6 +12,10 @@ variable "ami" {
   default = ""
 }
 
+variable "second_asg_ami" {
+  default = ""
+}
+
 variable "ami_version" {
   default = "*"
 }
