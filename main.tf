@@ -72,6 +72,10 @@ resource "aws_launch_configuration" "ecs_second" {
   lifecycle {
     create_before_destroy = true
   }
+
+  root_block_device {
+    volume_size = "${var.aws_ecs_root_block_size}"
+  }
 }
 
 resource "aws_autoscaling_group" "ecs" {
