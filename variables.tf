@@ -60,7 +60,7 @@ variable "ebs_block_device" {
 }
 
 variable "extra_tags" {
-  type    = list(string)
+  type    = list
   default = []
 }
 
@@ -191,4 +191,3 @@ variable "aws_ecs_root_block_size" {
   description = "The size of the aws_launch_configuration.ecs root_block_device volume in gigabytes."
   default     = "100"
 }
-
